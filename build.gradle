@@ -25,7 +25,7 @@ sourceSets {
         }
         resources {
             srcDir 'buildSrc/src/main/resources'
-            exclude 'META-INF/gradle-plugins/com.fizzpod.gitignore.properties'
+            exclude 'META-INF/gradle-plugins/com.fizzpod.clusterfuzz.properties'
         }
         groovy {
             srcDir 'buildSrc/src/main/groovy'
