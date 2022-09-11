@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url "https://artifacts.fizzpod.com/public/mvn/"
+        }
+    }
+    dependencies {
+        classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0') {
+            //exclude group: 'com.fizzpod', module: 'gradle-gitignore-plugin'
+        }
+    }
+}
+
+apply plugin: 'com.fizzpod.pater-build'
+apply from: 'buildSrc/build.gradle'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'buildSrc/src/main/java'
+        }
+        resources {
+            srcDir 'buildSrc/src/main/resources'
+            exclude 'META-INF/gradle-plugins/com.fizzpod.gitignore.properties'
+        }
+        groovy {
+            srcDir 'buildSrc/src/main/groovy'
+        }
+    }
+    test {
+        java {
+            srcDir 'buildSrc/src/test/java'
+        }
+        resources {
+            srcDir 'buildSrc/src/test/resources'
+        }
+        groovy {
+            srcDir 'buildSrc/src/test/groovy'
+        }
+    }
+}
+
+dependencies {
+    api gradleApi()
+    api localGroovy()
+}
+
+
+pluginBundle {
+
+  description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
+  tags = ['test', 'clusterfuzz', 'jvm', 'Jazzer']
+}
+
+gradlePlugin {
+    plugins {
+        plugin {
+            id = 'com.fizzpod.clusterfuzz'
+            displayName = 'Gradle Clusterfuzz plugin'
+            implementationClass = 'com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPlugin'
+        }
+    }
+}
