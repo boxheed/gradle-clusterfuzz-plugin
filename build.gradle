@@ -46,6 +46,11 @@ sourceSets {
 dependencies {
     api gradleApi()
     api localGroovy()
+    
+    implementation 'commons-io:commons-io:2.11.0'
+
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.12.0'
+
 }
 
 

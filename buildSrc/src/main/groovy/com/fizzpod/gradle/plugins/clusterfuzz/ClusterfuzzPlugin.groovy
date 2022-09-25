@@ -15,20 +15,24 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 
 	void apply(Project project) {
 		project.extensions.create("clusterfuzz", ClusterfuzzPluginExtension)
-		manageSourceSets(project)
-		manageConfigurations(project)
+		createSourceSet(project)
+		createConfiguration(project)
+		
 		manageArtifacts(project)
 	}
-	private void manageSourceSets(Project project) {
+	private void createSourceSet(Project project) {
 		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
-		def main = sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME)
-		sourceSets.register("clusterfuzz") {
-			it.compileClasspath.plus(main.get().output)
-            it.runtimeClasspath.plus(main.get().output)
+
+		def fuzzSourceSet = sourceSets.register("clusterfuzz")
+		project.afterEvaluate {
+			def main = sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME)
+			fuzzSourceSet.get().compileClasspath = fuzzSourceSet.get().compileClasspath.plus(main.get().output)
+			fuzzSourceSet.get().runtimeClasspath = fuzzSourceSet.get().runtimeClasspath.plus(main.get().output)
 		}
+		
 	}
 
-	private void manageConfigurations(Project project) {
+	private void createConfiguration(Project project) {
 		def configurations = project.getConfigurations()
 		configurations.named("clusterfuzzImplementation") {
             it.extendsFrom(configurations.named(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME).get())
