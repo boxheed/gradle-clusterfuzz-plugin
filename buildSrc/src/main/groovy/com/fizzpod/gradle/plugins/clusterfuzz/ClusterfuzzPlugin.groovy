@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.bundling.Jar
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -17,7 +18,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		project.extensions.create("clusterfuzz", ClusterfuzzPluginExtension)
 		createSourceSet(project)
 		createConfiguration(project)
-		
+		createTasks(project)
 		manageArtifacts(project)
 	}
 	private void createSourceSet(Project project) {
@@ -37,6 +38,20 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		configurations.named("clusterfuzzImplementation") {
             it.extendsFrom(configurations.named(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME).get())
         }
+	}
+
+	private void createTasks(Project project) {
+		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
+		def fuzzSourceSet = sourceSets.named("clusterfuzz")
+		project.task([group: 'build', 
+			type: Jar.class, 
+			dependsOn: ['jar', 'clusterfuzzClasses'],
+			description: 'Assembles a jar archive containing the fuzzer tests'], 
+			'clusterfuzzJar') {
+				archiveAppendix = 'fuzz'
+				destinationDirectory = new File(project.getBuildDir(), "clusterfuzz")
+				from fuzzSourceSet.get().output
+		}
 	}
 
 	private void manageArtifacts(Project project) {
