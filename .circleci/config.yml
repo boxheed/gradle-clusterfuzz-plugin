@@ -87,14 +87,15 @@ workflows:
     jobs:
       - build:
           context: boxhead-builds
-      - clusterfuzz:
-          context: boxhead-builds
-#          requires:
-#            - build
           filters:
             branches:
             #TODO change me to main
               only: donotrun
+      - clusterfuzz:
+          context: boxhead-builds
+#          requires:
+#            - build
+
       - security:
           context: boxhead-builds
           requires:
