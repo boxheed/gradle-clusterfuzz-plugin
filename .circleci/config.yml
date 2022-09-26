@@ -20,12 +20,13 @@ jobs:
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew clean build 
-      - run: ./gradlew pSSI
+      - run: ./gradlew clusterfuzzAssemble
       - run: pwd
       - persist_to_workspace:
           root: build
           paths:
             - ./libs
+            - ./clusterfuzz
   
   security:
     docker:
@@ -56,7 +57,8 @@ jobs:
       - run: uname -r
       - run: whoami
       - run: cd ~/workspace && ls -R
-      - run: find / -name 'jazzer'
+      - run: ls -altr / 
+      #find / -name 'jazzer'
     
   publish:
     docker:
