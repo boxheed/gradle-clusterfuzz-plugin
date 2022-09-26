@@ -64,7 +64,7 @@ jobs:
       - run: ls -altr /usr/bin
       - run: cd /fuzzing && ls -R
       - run: cd / && ls -R
-      - run: which jazzer
+      - run: jazzer
       #find / -name 'jazzer'
     
   publish:
