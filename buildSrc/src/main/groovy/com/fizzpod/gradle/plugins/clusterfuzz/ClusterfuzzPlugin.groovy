@@ -52,6 +52,24 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 				destinationDirectory = new File(project.getBuildDir(), "clusterfuzz")
 				from fuzzSourceSet.get().output
 		}
+		project.task([group: 'build',
+			dependsOn: ['clusterfuzzJar'],
+			description: 'Assembles libraries for running with clusterfuzz'],
+			'clusterfuzzLibs') {
+
+		}
+		project.task([group: 'build',
+			dependsOn: ['clusterfuzzLibs'],
+			description: 'Creates the scripts for running clusterfuzz'],
+			'clusterfuzzScripts') {
+
+		}
+		project.task([group: 'build',
+			dependsOn: ['clusterfuzzJar', 'clusterfuzzScripts', 'clusterfuzzLibs'],
+			description: 'Assembles libraries for running with clusterfuzz'],
+			'clusterfuzzAssemble') {
+
+		}
 	}
 
 	private void manageArtifacts(Project project) {
