@@ -21,7 +21,6 @@ jobs:
       - checkout
       - run: ./gradlew clean build 
       - run: ./gradlew clusterfuzzAssemble
-      - run: pwd
       - persist_to_workspace:
           root: build
           paths:
