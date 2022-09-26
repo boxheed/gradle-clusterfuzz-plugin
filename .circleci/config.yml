@@ -9,6 +9,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:8.0
+    resource_class: medium
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -31,6 +32,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:8.0
+    resource_class: medium
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -46,11 +48,12 @@ jobs:
   clusterfuzz:
     docker:
       - image: cifuzz/jazzer
+    resource_class: medium
     working_directory: ~/repo
     steps:
-      - attach_workspace:
+#      - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ~/workspace
+#          at: ~/workspace
       - run: echo 'hello'
       - run: cat /etc/os-release
       - run: uname -r
@@ -86,8 +89,12 @@ workflows:
           context: boxhead-builds
       - clusterfuzz:
           context: boxhead-builds
-          requires:
-            - build
+#          requires:
+#            - build
+          filters:
+            branches:
+            #TODO change me to main
+              only: donotrun
       - security:
           context: boxhead-builds
           requires:
