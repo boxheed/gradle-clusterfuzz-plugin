@@ -58,8 +58,9 @@ jobs:
       - run: cat /etc/os-release
       - run: uname -r
       - run: whoami
-      - run: cd ~/workspace && ls -R
+#      - run: cd ~/workspace && ls -R
       - run: ls -altr / 
+      - run: ls -altr / | grep jazzer
       #find / -name 'jazzer'
     
   publish:
