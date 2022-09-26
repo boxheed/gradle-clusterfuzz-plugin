@@ -54,7 +54,7 @@ jobs:
 #      - attach_workspace:
           # Must be absolute path or relative path from working_directory
 #          at: ~/workspace
-      - run: mkdir /fuzz && cd /fuzz && wget https://github.com/CodeIntelligenceTesting/jazzer/releases/download/v0.12.0/jazzer-linux-x86_64.tar.gz && ls -altr
+      - run: mkdir /fuzz && cd /fuzz && wget https://github.com/CodeIntelligenceTesting/jazzer/releases/download/v0.12.0/jazzer-linux-x86_64.tar.gz && tar -xvzf *.gz
       - run: echo 'hello'
       - run: cat /etc/os-release
       - run: uname -r
