@@ -58,6 +58,7 @@ jobs:
       - run: cat /etc/os-release
       - run: uname -r
       - run: whoami
+      - run: printenv
 #      - run: cd ~/workspace && ls -R
       - run: ls -altr / 
       - run: cd /fuzzing && ls -R
