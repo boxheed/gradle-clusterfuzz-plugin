@@ -60,7 +60,8 @@ jobs:
       - run: whoami
 #      - run: cd ~/workspace && ls -R
       - run: ls -altr / 
-      - run: ls -altr / | grep jazzer
+      - run: cd /fuzzing && ls -R
+      - run: which jazzer
       #find / -name 'jazzer'
     
   publish:
