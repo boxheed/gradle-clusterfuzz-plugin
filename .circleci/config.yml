@@ -61,6 +61,7 @@ jobs:
       - run: printenv
 #      - run: cd ~/workspace && ls -R
       - run: ls -altr / 
+      - run: ls -altr /bin
       - run: cd /fuzzing && ls -R
       - run: which jazzer
       #find / -name 'jazzer'
