@@ -63,7 +63,7 @@ jobs:
       - run: ls -altr / 
       - run: ls -altr /usr/bin
       - run: cd /fuzzing && ls -R
-      - run: cd / && ls -R
+      #- run: cd / && ls -R
       - run: jazzer
       #find / -name 'jazzer'
     
