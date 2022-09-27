@@ -22,11 +22,11 @@ jobs:
       - checkout
       - run: ./gradlew clean build 
       - run: ./gradlew clusterfuzzAssemble
-      - persist_to_workspace:
-          root: build
-          paths:
-            - ./libs
-            - ./clusterfuzz
+#      - persist_to_workspace:
+#          root: build
+#          paths:
+#            - ./libs
+#            - ./clusterfuzz
   
   security:
     docker:
@@ -93,14 +93,14 @@ workflows:
     jobs:
       - build:
           context: boxhead-builds
-          filters:
-            branches:
+#          filters:
+#            branches:
             #TODO change me to main
-              only: donotrun
+#              only: donotrun
       - clusterfuzz:
           context: boxhead-builds
-#          requires:
-#            - build
+          requires:
+            - build
 
       - security:
           context: boxhead-builds
