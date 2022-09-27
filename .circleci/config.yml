@@ -22,10 +22,10 @@ jobs:
       - checkout
       - run: ./gradlew clean build 
       - run: ./gradlew clusterfuzzAssemble
-#      - persist_to_workspace:
-#          root: build
-#          paths:
-#            - ./libs
+      - persist_to_workspace:
+          root: build
+          paths:
+            - ./libs
 #            - ./clusterfuzz
   
   security:
