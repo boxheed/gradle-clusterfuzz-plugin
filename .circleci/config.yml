@@ -9,7 +9,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:8.0
-    resource_class: medium
+    #resource_class: medium
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -32,7 +32,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: cimg/openjdk:8.0
-    resource_class: medium
+    #resource_class: medium
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -48,7 +48,7 @@ jobs:
   clusterfuzz:
     docker:
       - image: cifuzz/jazzer
-    resource_class: medium
+#    resource_class: medium
     working_directory: ~/fuzz
     steps:
       - attach_workspace:
@@ -60,7 +60,7 @@ jobs:
       - run: cp ~/workspace/clusterfuzz/assemble/* .
       - run: ls -altr
       - run: chmod +x run.sh
-      - run: ./run.sh
+      - run: ls -altr && ./run.sh
 #      - run: cat /etc/os-release
 #      - run: uname -r
 #      - run: whoami
@@ -98,10 +98,6 @@ workflows:
     jobs:
       - build:
           context: boxhead-builds
-#          filters:
-#            branches:
-            #TODO change me to main
-#              only: donotrun
       - clusterfuzz:
           context: boxhead-builds
           requires:
