@@ -55,7 +55,7 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: ~/workspace
       - run: mkdir /fuzz && cd /fuzz && wget https://github.com/CodeIntelligenceTesting/jazzer/releases/download/v0.12.0/jazzer-linux-x86_64.tar.gz && tar -xvzf *.gz
-      - run: cd /fuzz && chmod +x jazzer && which jazzer
+      - run: cd /fuzz && chmod +x jazzer
 #      - run: cat /etc/os-release
 #      - run: uname -r
 #      - run: whoami
@@ -64,8 +64,8 @@ jobs:
 #      - run: ls -altr / 
 #      - run: ls -altr /usr/bin
 #      - run: cd /fuzzing && ls -R
-      #- run: cd / && ls -R
-      - run: jazzer
+      - run: cd / && ls -R
+      - run: cd /fuzz && ./jazzer
       #find / -name 'jazzer'
     
   publish:

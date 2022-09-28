@@ -65,7 +65,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 			description: 'Assembles a jar archive containing the fuzzer tests'], 
 			CLUSTERFUZZ_JAR_TASK_NAME) {
 				archiveAppendix = 'fuzz'
-				destinationDirectory = createPath(project, CLUSTERFUZZ_JAR_TASK_NAME)//new File(project.getBuildDir(), "clusterfuzz")
+				destinationDirectory = createPath(project, CLUSTERFUZZ_JAR_TASK_NAME)
 				from fuzzSourceSet.get().output
 		}
 		project.task([group: CLUSTERFUZZ_GROUP,
@@ -83,13 +83,18 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
 			description: 'Creates the scripts for running clusterfuzz'],
 			CLUSTERFUZZ_SCRIPTS_TASK_NAME) {
-
+				new ClusterfuzzScriptsTask(project).doTask()
 		}
 		project.task([group: CLUSTERFUZZ_GROUP,
+			type: Copy.class, 
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_SCRIPTS_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
-			description: 'Assembles libraries for running with clusterfuzz'],
-			'clusterfuzzAssemble') {
-
+			description: 'Assembles libraries and scripts for running with clusterfuzz'],
+			CLUSTERFUZZ_ASSEMBLE_TASK_NAME) {
+				from(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
+				from(createPath(project, CLUSTERFUZZ_JAR_TASK_NAME).getAbsolutePath())
+				from(createPath(project, CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
+				includeEmptyDirs = false
+				into(createPath(project, CLUSTERFUZZ_ASSEMBLE_TASK_NAME).getAbsolutePath())
 		}
 	}
 
