@@ -21,7 +21,7 @@ jobs:
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew clean build 
-      - run: ./gradlew clusterfuzzAssemble
+      - run: ./gradlew clusterfuzzAssemble --stacktrace
       - persist_to_workspace:
           root: build
           paths:
