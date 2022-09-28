@@ -2,6 +2,8 @@ package com.fizzpod.gradle.plugins.clusterfuzz
 
 import org.gradle.api.Project
 import java.util.zip.ZipFile
+import java.nio.charset.Charset
+import org.apache.commons.io.IOUtils
 
 import static groovy.io.FileType.FILES
 
@@ -28,7 +30,7 @@ class ClusterfuzzScriptsTask {
     private writeRunScript() {
         def outputFolder = getOutputFolder()
         outputFolder.mkdirs()
-        def template = new String(this.getClass().getResourceAsStream('/run_template.sh').readAllBytes(), "UTF-8")
+        def template = IOUtils.resourceToString('/run_template.sh', Charset.forName("UTF-8"))
         File outputFile = new File(outputFolder, "run.sh");
         outputFile.write(template)
     }
@@ -52,7 +54,8 @@ class ClusterfuzzScriptsTask {
     }
 
     private generateScript(className, classpath) {
-        def template = new String(this.getClass().getResourceAsStream('/clusterfuzz_test_template.sh').readAllBytes(), "UTF-8")
+        
+        def template = IOUtils.resourceToString('/clusterfuzz_test_template.sh', Charset.forName("UTF-8"))
         def binding = ["class": className, "classpath": classpath]
         def engine = new groovy.text.SimpleTemplateEngine()
         def script = engine.createTemplate(template).make(binding)
