@@ -59,6 +59,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
 		def fuzzSourceSet = sourceSets.named(CLUSTERFUZZ_SOURCESET_NAME)
 		def implementationConfiguration = project.getConfigurations().named(CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME)
+
 		project.task([group: CLUSTERFUZZ_GROUP, 
 			type: Jar.class, 
 			dependsOn: ['jar', CLUSTERFUZZ_CLASSES_TASK_NAME],
@@ -82,7 +83,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		project.task([group: CLUSTERFUZZ_GROUP,
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
 			description: 'Creates the scripts for running clusterfuzz'],
-			CLUSTERFUZZ_SCRIPTS_TASK_NAME) {
+			CLUSTERFUZZ_SCRIPTS_TASK_NAME).doLast {
 				new ClusterfuzzScriptsTask(project).doTask()
 		}
 		project.task([group: CLUSTERFUZZ_GROUP,
