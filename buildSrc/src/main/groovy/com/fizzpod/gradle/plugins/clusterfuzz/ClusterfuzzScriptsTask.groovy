@@ -34,7 +34,6 @@ class ClusterfuzzScriptsTask {
     }
 
     private writeScript(testClass, classpath) {
-        println(testClass)
         if(testClass != null) {
             def script = generateScript(testClass, classpath)
             saveScript(testClass, script)
