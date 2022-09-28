@@ -59,8 +59,8 @@ jobs:
       - run: ls -R ~/workspace
       - run: cp ~/workspace/clusterfuzz/assemble/* .
       - run: ls -altr
-      - run: chmod +x run.sh
-      - run: ls -altr && ./run.sh
+      - run: bash run.sh
+#      - run: ls -altr && ./run.sh
 #      - run: cat /etc/os-release
 #      - run: uname -r
 #      - run: whoami
