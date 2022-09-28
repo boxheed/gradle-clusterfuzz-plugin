@@ -26,7 +26,7 @@ jobs:
           root: build
           paths:
             - ./libs
-#            - ./clusterfuzz
+            - ./clusterfuzz/assemble
   
   security:
     docker:
@@ -61,7 +61,7 @@ jobs:
 #      - run: whoami
 #      - run: printenv
 #      - run: cd ~/workspace && ls -R
-#      - run: ls -altr / 
+      - run: ls -altr / 
 #      - run: ls -altr /usr/bin
 #      - run: cd /fuzzing && ls -R
       - run: cd / && ls -R
