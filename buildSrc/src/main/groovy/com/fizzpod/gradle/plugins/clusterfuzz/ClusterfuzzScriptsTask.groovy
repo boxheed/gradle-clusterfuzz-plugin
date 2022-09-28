@@ -18,10 +18,19 @@ class ClusterfuzzScriptsTask {
         def tests = findTests()
         //for each test case create a script
         def classpath = getClasspath()
+        writeRunScript()
         tests.each {
             def testClass = getTestClassName(it)
             writeScript(testClass, classpath)
         }
+    }
+
+    private writeRunScript() {
+        def outputFolder = getOutputFolder()
+        outputFolder.mkdirs()
+        def template = new String(this.getClass().getResourceAsStream('/run_template.sh').readAllBytes(), "UTF-8")
+        File outputFile = new File(outputFolder, "run.sh");
+        outputFile.write(template)
     }
 
     private writeScript(testClass, classpath) {
@@ -39,7 +48,8 @@ class ClusterfuzzScriptsTask {
         File outputFile = new File(outputFolder, name + ".sh");
         int tries = 0;
         outputFile.write(script)
-
+        File runFile = new File(outputFolder, "run.sh");
+        runFile.append("bash " + name + ".sh")
     }
 
     private generateScript(className, classpath) {

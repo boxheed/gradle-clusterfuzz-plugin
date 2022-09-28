@@ -1,19 +1,12 @@
 #!/usr/bin/env bash
 
 #define classpath
-CLASSPATH='$classpath'
+CP='$classpath'
 
 #define test class
-CLAZZ='$class'
+TARGET='$class'
 
-JZR=`jazzer`
-
-#find jazzer
-#if in current directory use it
-
-#if on path use that
-
-#if on neither exit
+JZR='./jazzer'
 
 #run the test
-jazzer
+\$JZR --cp=\$CP --target_class=\$TARGET
