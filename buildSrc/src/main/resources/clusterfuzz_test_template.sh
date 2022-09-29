@@ -8,6 +8,6 @@ TARGET='$class'
 
 JZR_DRIVER=`which jazzer_driver`
 JZR_AGENT=`which jazzer_agent_deploy.jar`
-
+export TEST_TIMEOUT=30
 #run the test
 \$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET
