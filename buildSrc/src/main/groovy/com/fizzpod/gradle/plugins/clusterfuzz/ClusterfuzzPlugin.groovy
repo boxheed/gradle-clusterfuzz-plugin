@@ -77,6 +77,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 				from(fuzzSourceSet.get().runtimeClasspath){
          			include '**/*.jar'
 				}
+				from(project.getTasksByName('jar', false)[0].archiveFile)
 				includeEmptyDirs = false
 				into(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
 		}
