@@ -8,7 +8,10 @@ public class ClusterfuzzPluginExtensionFuzzTest {
 
     public static void fuzzerTestOneInput(FuzzedDataProvider data) {
         ClusterfuzzPluginExtension extension = new ClusterfuzzPluginExtension();
-        extension.language(data.consumeString(10));
+        String input = data.consumeString(10);
+        extension.setLanguage(input);
+        assert input.equals(extension.getLanguage());
+        assert 1 == 2;
     }
 
 }
