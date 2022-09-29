@@ -6,7 +6,7 @@ class ClusterfuzzPluginExtensionFuzzTest {
 
 
 
-    public static void testExtansionLang(FuzzedDataProvider data) {
+    public static void fuzzerTestOneInput(FuzzedDataProvider data) {
         ClusterfuzzPluginExtension extension = new ClusterfuzzPluginExtension();
         extension.language(data.consumeString(10));
     }
