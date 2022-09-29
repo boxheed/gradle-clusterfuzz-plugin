@@ -6,7 +6,8 @@ CP='$classpath'
 #define test class
 TARGET='$class'
 
-JZR='./jazzer'
+JZR_DRIVER=`which jazzer_driver`
+JZR_AGENT=`which jazzer_agent_deploy.jar`
 
 #run the test
-\$JZR --cp=\$CP --target_class=\$TARGET
+\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET
