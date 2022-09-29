@@ -34,7 +34,6 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		createSourceSet(project)
 		createConfiguration(project)
 		createTasks(project)
-		manageArtifacts(project)
 	}
 	private void createSourceSet(Project project) {
 		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
@@ -45,7 +44,6 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 			fuzzSourceSet.get().compileClasspath = fuzzSourceSet.get().compileClasspath.plus(main.get().output)
 			fuzzSourceSet.get().runtimeClasspath = fuzzSourceSet.get().runtimeClasspath.plus(main.get().output)
 		}
-		
 	}
 
 	private void createConfiguration(Project project) {
@@ -65,10 +63,11 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 			dependsOn: ['jar', CLUSTERFUZZ_CLASSES_TASK_NAME],
 			description: 'Assembles a jar archive containing the fuzzer tests'], 
 			CLUSTERFUZZ_JAR_TASK_NAME) {
-				archiveAppendix = 'fuzz'
+				archiveAppendix = 'clusterfuzz'
 				destinationDirectory = createPath(project, CLUSTERFUZZ_JAR_TASK_NAME)
 				from fuzzSourceSet.get().output
 		}
+
 		project.task([group: CLUSTERFUZZ_GROUP,
 			type: Copy.class, 
 			dependsOn: [],
@@ -81,12 +80,14 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 				includeEmptyDirs = false
 				into(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
 		}
+
 		project.task([group: CLUSTERFUZZ_GROUP,
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
 			description: 'Creates the scripts for running clusterfuzz'],
 			CLUSTERFUZZ_SCRIPTS_TASK_NAME).doLast {
 				new ClusterfuzzScriptsTask(project).doTask()
 		}
+
 		project.task([group: CLUSTERFUZZ_GROUP,
 			type: Copy.class, 
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_SCRIPTS_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
@@ -98,10 +99,6 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 				includeEmptyDirs = false
 				into(createPath(project, CLUSTERFUZZ_ASSEMBLE_TASK_NAME).getAbsolutePath())
 		}
-	}
-
-	private void manageArtifacts(Project project) {
-
 	}
 
 	private File createPath(Project project, String name) {
