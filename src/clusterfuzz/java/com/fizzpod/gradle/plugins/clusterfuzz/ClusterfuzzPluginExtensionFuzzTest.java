@@ -2,7 +2,7 @@ package com.fizzpod.gradle.plugins.clusterfuzz;
 
 import com.code_intelligence.jazzer.api.FuzzedDataProvider;
 
-class ClusterfuzzPluginExtensionFuzzTest {
+public class ClusterfuzzPluginExtensionFuzzTest {
 
 
 
