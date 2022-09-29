@@ -68,7 +68,11 @@ class ClusterfuzzScriptsTask {
         libFolder.eachFileRecurse(FILES) { jarFile ->
             classpath.add(jarFile.name)
         }
-        return classpath.join(';')
+        libFolder = resolvePath(ClusterfuzzPlugin.CLUSTERFUZZ_JAR_TASK_NAME)
+        libFolder.eachFileRecurse(FILES) { jarFile ->
+            classpath.add(jarFile.name)
+        }
+        return classpath.join(':')
     }
 
     private getTestClassName(testClass) {
