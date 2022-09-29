@@ -60,7 +60,7 @@ jobs:
       - run: ls -R ~/workspace
       - run: cp ~/workspace/clusterfuzz/assemble/* .
       - run: ls -altr
-      - run: find / -name "*jazzer*"
+#      - run: find / -name "*jazzer*"
 #      - run: which jazzer
 #      - run: jazzer
 #      - run: ./jazzer --target_class=com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPluginExtensionFuzzTest
