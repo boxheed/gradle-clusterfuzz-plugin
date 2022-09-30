@@ -68,6 +68,7 @@ jobs:
 #      - run: /usr/local/bin/jazzer_driver --agent_path=/usr/local/bin/jazzer_agent_deploy.jar --cp=commons-io-2.11.0.jar:gradle-api-7.5.1.jar:gradle-clusterfuzz-plugin-0.1.0-SNAPSHOT.jar:gradle-installation-beacon-7.5.1.jar:groovy-3.0.10.jar:groovy-ant-3.0.10.jar:groovy-astbuilder-3.0.10.jar:groovy-console-3.0.10.jar:groovy-datetime-3.0.10.jar:groovy-dateutil-3.0.10.jar:groovy-groovydoc-3.0.10.jar:groovy-json-3.0.10.jar:groovy-nio-3.0.10.jar:groovy-sql-3.0.10.jar:groovy-templates-3.0.10.jar:groovy-test-3.0.10.jar:groovy-xml-3.0.10.jar:javaparser-core-3.17.0.jar:jazzer-api-0.12.0.jar:kotlin-reflect-1.6.21.jar:kotlin-stdlib-1.6.21.jar:kotlin-stdlib-common-1.6.21.jar:kotlin-stdlib-jdk7-1.6.21.jar:kotlin-stdlib-jdk8-1.6.21.jar:gradle-clusterfuzz-plugin-clusterfuzz-0.1.0-SNAPSHOT.jar --target_class=com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPluginExtensionFuzzTest
 #      - run: /usr/local/bin/jazzer_driver --help
       - run: bash run.sh
+      - run: ls -altr
 #      - run: ls -altr && ./run.sh
 #      - run: cat /etc/os-release
 #      - run: uname -r
