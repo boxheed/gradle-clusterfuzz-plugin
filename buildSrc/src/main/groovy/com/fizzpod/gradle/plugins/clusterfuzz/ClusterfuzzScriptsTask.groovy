@@ -20,11 +20,30 @@ class ClusterfuzzScriptsTask {
         def tests = findTests()
         //for each test case create a script
         def classpath = getClasspath()
+        def flags = getFlags()
+        def options = getOptions()
         writeRunScript()
         tests.each {
             def testClass = getTestClassName(it)
-            writeScript(testClass, classpath)
+            writeScript(testClass, classpath, flags, options)
         }
+    }
+
+    private getFlags() {
+        ClusterfuzzPluginExtension extension = this.project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME);
+        def flags = extension.getFlags();
+        return flags.join(" ")
+    }
+
+    private getOptions() {
+        ClusterfuzzPluginExtension extension = this.project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME);
+        def options = extension.getOptions();
+
+        def opts = [];
+        options.each { kv ->
+            opts.add(kv.key + "=" + kv.value)
+        }
+        return opts.join(" ")
     }
 
     private writeRunScript() {
@@ -35,9 +54,9 @@ class ClusterfuzzScriptsTask {
         outputFile.write(template)
     }
 
-    private writeScript(testClass, classpath) {
+    private writeScript(testClass, classpath, flags, options) {
         if(testClass != null) {
-            def script = generateScript(testClass, classpath)
+            def script = generateScript(testClass, classpath, flags, options)
             saveScript(testClass, script)
         }
     }
@@ -53,10 +72,9 @@ class ClusterfuzzScriptsTask {
         runFile.append("bash " + name + ".sh")
     }
 
-    private generateScript(className, classpath) {
-        
+    private generateScript(className, classpath, flags, options) {
         def template = IOUtils.resourceToString('/clusterfuzz_test_template.sh', Charset.forName("UTF-8"))
-        def binding = ["class": className, "classpath": classpath]
+        def binding = ["class": className, "classpath": classpath, "flags": flags, "options": options]
         def engine = new groovy.text.SimpleTemplateEngine()
         def script = engine.createTemplate(template).make(binding)
         return script.toString()

@@ -3,10 +3,7 @@ package com.fizzpod.gradle.plugins.clusterfuzz;
 public class ClusterfuzzPluginExtension {
 
 	String language = "jvm"
-
-	def language(String language){
-		this.language = language
-		return this
-	}
+	String[] flags = []
+	Map<String, String> options = ["-runs": "100", "-timeout":"10", "-max_total_time":"300"]
 
 }
