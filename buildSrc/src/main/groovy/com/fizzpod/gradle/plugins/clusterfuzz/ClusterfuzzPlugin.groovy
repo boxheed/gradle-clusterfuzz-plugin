@@ -93,11 +93,14 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_SCRIPTS_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
 			description: 'Assembles libraries and scripts for running with clusterfuzz'],
 			CLUSTERFUZZ_ASSEMBLE_TASK_NAME) {
-				from(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
-				from(createPath(project, CLUSTERFUZZ_JAR_TASK_NAME).getAbsolutePath())
-				from(createPath(project, CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
+				destinationDir = createPath(project, CLUSTERFUZZ_ASSEMBLE_TASK_NAME)
 				includeEmptyDirs = false
-				into(createPath(project, CLUSTERFUZZ_ASSEMBLE_TASK_NAME).getAbsolutePath())
+				from(createPath(project, CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
+				into('libs', {
+					from(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
+					from(createPath(project, CLUSTERFUZZ_JAR_TASK_NAME).getAbsolutePath())
+				})
+
 		}
 	}
 
