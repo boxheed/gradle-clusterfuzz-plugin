@@ -51,7 +51,7 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/workspace
-      - run: cp ~/workspace/clusterfuzz/assemble/* .
+      - run: cp -r ~/workspace/clusterfuzz/assemble/* .
       - run: ls -altr
       - run: bash ./bin/run.sh
       - run: ls -altr
