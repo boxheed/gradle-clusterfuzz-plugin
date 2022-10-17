@@ -53,7 +53,7 @@ jobs:
           at: ~/workspace
       - run: cp ~/workspace/clusterfuzz/assemble/* .
       - run: ls -altr
-      - run: bash run.sh
+      - run: bash ./bin/run.sh
       - run: ls -altr
 
     
