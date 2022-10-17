@@ -52,9 +52,9 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: ~/workspace
       - run: cp -r ~/workspace/clusterfuzz/assemble/* .
-      - run: ls -altr
+      - run: ls -altR
       - run: bash ./bin/run.sh
-      - run: ls -altr
+      - run: ls -altR
 
     
   publish:

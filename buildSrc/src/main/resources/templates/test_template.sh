@@ -22,7 +22,7 @@ set -e
 cd \$SCRIPT_DIR
 # define classpath
 CP=''
-for FILE in ../libs/*; do
+for FILE in ../../libs/*; do
   CP="\$FILE:\$CP"
 done
 # remove the last character as this will be a ':' seperator
