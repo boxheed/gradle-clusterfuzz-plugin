@@ -34,6 +34,8 @@ FLGS='$flags'
 
 # Jazzer options
 OPTS='$options'
+# Jacoco options
+JCO='--coverage_report=$extension.jacoco.reportfile --coverage_dump=$extension.jacoco.dumpfile'
 
 # Find the jazzer driver and agent these should be on the path
 JZR_DRIVER=`which jazzer_driver`
@@ -42,7 +44,7 @@ JZR_AGENT=`which jazzer_agent_deploy.jar`
 
 export TEST_TIMEOUT=30
 #run the test
-\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS
+\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ extension.jacoco.enabled ? '$JCO': '' }
 
 echo -e  "---------------------------------------------------"
 echo -e  " Target : $class"

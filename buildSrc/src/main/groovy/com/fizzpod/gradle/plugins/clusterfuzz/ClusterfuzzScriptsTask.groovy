@@ -16,28 +16,28 @@ class ClusterfuzzScriptsTask {
     }
 
     void doTask() {
+        def params = ["project": this.project]
+        params.extension = this.project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME)
         //find all the test cases
-        def tests = findTests()
+        params.tests = findTests(params)
         //for each test case create a script
-        def classpath = getClasspath()
-        def flags = getFlags()
-        def options = getOptions()
-        writeRunScript()
-        tests.each {
-            def testClass = getTestClassName(it)
-            writeScript(testClass, classpath, flags, options)
+        params.classpath = getClasspath(params)
+        params.flags = getFlags(params)
+        params.options = getOptions(params)
+        writeRunScript(params)
+        params.tests.each {
+            def scriptParams = ["class":getTestClassName(it)] + params
+            
+            writeScript(scriptParams)
         }
     }
 
-    private getFlags() {
-        ClusterfuzzPluginExtension extension = this.project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME);
-        def flags = extension.getFlags();
-        return flags.join(" ")
+    private getFlags(params) {
+        return params.extension.flags.join(" ")
     }
 
-    private getOptions() {
-        ClusterfuzzPluginExtension extension = this.project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME);
-        def options = extension.getOptions();
+    private getOptions(params) {
+        def options = params.extension.getOptions()
 
         def opts = [];
         options.each { kv ->
@@ -46,12 +46,11 @@ class ClusterfuzzScriptsTask {
         return opts.join(" ")
     }
 
-    private writeRunScript() {
+    private writeRunScript(params) {
 
         def template = IOUtils.resourceToString('/templates/run_template.sh', Charset.forName("UTF-8"))
-        def binding = ["project": this.project]
         def engine = new groovy.text.SimpleTemplateEngine()
-        def script = engine.createTemplate(template).make(binding)
+        def script = engine.createTemplate(template).make(params)
         def outputFolder = getOutputFolder()
         def binFolder = new File(outputFolder, "bin")
         binFolder.mkdirs()
@@ -59,17 +58,17 @@ class ClusterfuzzScriptsTask {
         runFile.write(script.toString())
     }
 
-    private writeScript(testClass, classpath, flags, options) {
-        if(testClass != null) {
-            def script = generateScript(testClass, classpath, flags, options)
-            saveScript(testClass, script)
+    private writeScript(params) {
+        if(params["class"] != null) {
+            def script = generateScript(params)
+            saveScript(params, script)
         }
     }
 
-    private saveScript(testClass, script) {
+    private saveScript(params, script) {
         def outputFolder = getOutputFolder()
         outputFolder = new File(outputFolder, "tests")
-        def name = testClass.split("\\.").last()
+        def name = params["class"].split("\\.").last()
         def testFolder = new File(outputFolder, name)
         testFolder.mkdirs()
         File testFile = new File(testFolder, "test.sh");
@@ -77,15 +76,14 @@ class ClusterfuzzScriptsTask {
         testFile.write(script)
     }
 
-    private generateScript(className, classpath, flags, options) {
+    private generateScript(params) {
         def template = IOUtils.resourceToString('/templates/test_template.sh', Charset.forName("UTF-8"))
-        def binding = ["project": this.project, "class": className, "flags": flags, "options": options]
         def engine = new groovy.text.SimpleTemplateEngine()
-        def script = engine.createTemplate(template).make(binding)
+        def script = engine.createTemplate(template).make(params)
         return script.toString()
     }
 
-    private getClasspath() {
+    private getClasspath(params) {
         def classpath = []
         def libFolder = resolvePath(ClusterfuzzPlugin.CLUSTERFUZZ_DEPS_TASK_NAME)
         libFolder.eachFileRecurse(FILES) { jarFile ->
@@ -98,14 +96,14 @@ class ClusterfuzzScriptsTask {
         return classpath.join(':')
     }
 
-    private getTestClassName(testClass) {
-        if(testClass.endsWith(".class")) {
-            return testClass.substring(0, testClass.length() - ".class".length()).replace('/', '.')
+    private getTestClassName(classFile) {
+        if(classFile.endsWith(".class")) {
+            return classFile.substring(0, classFile.length() - ".class".length()).replace('/', '.')
         }
         return null
     }
 
-    private findTests() {
+    private findTests(params) {
         def tests = []
         def jarFolder = resolvePath(ClusterfuzzPlugin.CLUSTERFUZZ_JAR_TASK_NAME)
         jarFolder.eachFileRecurse(FILES) { jarFile ->
