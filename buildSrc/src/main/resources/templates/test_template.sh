@@ -4,14 +4,14 @@
 
 # working directory
 SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
+DIR_NAME=`basename $SCRIPT_DIR` 
 # define test class
 TARGET='$class'
 
 echo -e  "---------------------------------------------------"
 echo -e  " Project: $project.name"
 echo -e  " Version: $project.version"
-echo -e  " Dir    :" `basename \$SCRIPT_DIR`
+echo -e  " Dir    : $DIR_NAME" 
 echo -e  " Target : $class"
 echo -e  " Start  :" `date`
 echo -e  "---------------------------------------------------"
@@ -45,6 +45,11 @@ JZR_AGENT=`which jazzer_agent_deploy.jar`
 export TEST_TIMEOUT=30
 #run the test
 \$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ extension.jacoco.enabled ? '$JCO': '' }
+
+# collect the generated output and the run script
+mkdir -p ../output
+cd ..
+tar -cvzf "./output/$DIR_NAME.tgz" "./$DIR_NAME"
 
 echo -e  "---------------------------------------------------"
 echo -e  " Target : $class"

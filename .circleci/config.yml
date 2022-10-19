@@ -55,6 +55,8 @@ jobs:
       - run: ls -altR
       - run: bash ./bin/run.sh
       - run: ls -altR
+      - store_artifacts: 
+          path: ~/workspace/tests/output
 
     
   publish:
