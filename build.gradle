@@ -53,6 +53,10 @@ dependencies {
 
 }
 
+clusterfuzz {
+    options = options + ["--instrumentation_includes":"com.fizzpod.**"]
+}
+
 
 pluginBundle {
 
