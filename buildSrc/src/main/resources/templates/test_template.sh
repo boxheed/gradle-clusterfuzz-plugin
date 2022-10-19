@@ -49,7 +49,7 @@ export TEST_TIMEOUT=30
 # collect the generated output and the run script
 mkdir -p ../output
 cd ..
-tar -cvzf "./output/$DIR_NAME.tgz" "./$DIR_NAME"
+tar -cvzf "./output/\$DIR_NAME.tgz" "./\$DIR_NAME"
 
 echo -e  "---------------------------------------------------"
 echo -e  " Target : $class"
