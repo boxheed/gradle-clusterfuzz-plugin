@@ -11,7 +11,7 @@ TARGET='$class'
 echo -e  "---------------------------------------------------"
 echo -e  " Project: $project.name"
 echo -e  " Version: $project.version"
-echo -e  " Dir    : $DIR_NAME" 
+echo -e  " Dir    : \$DIR_NAME" 
 echo -e  " Target : $class"
 echo -e  " Start  :" `date`
 echo -e  "---------------------------------------------------"
