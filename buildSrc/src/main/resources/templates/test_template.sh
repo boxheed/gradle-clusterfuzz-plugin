@@ -4,7 +4,7 @@
 
 # working directory
 SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-DIR_NAME=`basename $SCRIPT_DIR` 
+DIR_NAME=`basename \$SCRIPT_DIR` 
 # define test class
 TARGET='$class'
 
