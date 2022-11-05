@@ -38,21 +38,23 @@ public class ClusterfuzzScriptsTask extends DefaultTask {
 	def runTask() {
 		def tests = findTests()
 		tests.each { test ->
-            def params = ["class": getTestClassName(test),
+		def testClass = getTestClassName(test)
+            def params = ["class": testClass,
 				"project": project] 
             params.test = test
 			addExtension(params)
 			addOptions(params)
 			addFlags(params)
             def script = generateTestScript(params)
+			writeTestScript(testClass, script)
         }
 		println(tests)
 	}
 
-	def writeTestScript(script) {
+	def writeTestScript(testClass, script) {
 		def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
         def testsFolder = new File(outputDir, "tests")
-        def name = params["class"].split("\\.").last()
+        def name = testClass.split("\\.").last()
         def testFolder = new File(testsFolder, name)
         testFolder.mkdirs()
         File testFile = new File(testFolder, "test.sh");
