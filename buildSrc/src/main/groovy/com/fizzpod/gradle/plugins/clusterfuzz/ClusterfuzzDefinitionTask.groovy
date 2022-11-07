@@ -31,8 +31,8 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         taskContainer.create([name: NAME,
             type: ClusterfuzzDefinitionTask,
             dependsOn: [ClusterfuzzJarTask.NAME],
-            group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
-            description: 'Creates the main scripts for running each of the clusterfuzz tests'])
+            group: null,
+            description: 'Creates the definition of the tests'])
 
     }
 

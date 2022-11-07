@@ -13,7 +13,7 @@ public class ClusterfuzzDependenciesTask {
     */
     public static register(Project project) {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
+		project.task([group: null,
 			type: Copy.class, 
 			dependsOn: [],
 			description: 'Assembles libraries for running with clusterfuzz'],

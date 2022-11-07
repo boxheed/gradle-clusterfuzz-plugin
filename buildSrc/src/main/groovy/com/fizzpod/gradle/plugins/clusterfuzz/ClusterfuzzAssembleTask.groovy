@@ -13,7 +13,7 @@ public class ClusterfuzzAssembleTask {
     */
     public static register(Project project) {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
+		project.task([group: null,
 		type: Copy.class, 
 		dependsOn: [ClusterfuzzJarTask.NAME, 
 			ClusterfuzzWriteTestScriptsTask.NAME, 

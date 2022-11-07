@@ -25,7 +25,7 @@ public class ClusterfuzzWriteRunScriptTask extends DefaultTask {
 
 		taskContainer.create([name: NAME,
 			type: ClusterfuzzWriteRunScriptTask,
-			group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
+			group: null,
 			description: 'Creates the main run script for running clusterfuzz'])
 
     }

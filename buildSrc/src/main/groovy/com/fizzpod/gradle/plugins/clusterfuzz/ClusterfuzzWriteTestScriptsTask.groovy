@@ -30,7 +30,7 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 		taskContainer.create([name: NAME,
 			type: ClusterfuzzWriteTestScriptsTask,
 			dependsOn: [ClusterfuzzJarTask.NAME, ClusterfuzzDefinitionTask.NAME],
-			group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
+			group: null,
 			description: 'Creates the main scripts for running each of the clusterfuzz tests'])
 
     }
@@ -38,14 +38,12 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 	@TaskAction
 	def runTask() {
 		def tests = loadTests()
-        println tests
 		tests.each { test ->
             test.project = project
             test.extension = ClusterfuzzPluginHelper.getExtension(project)
             def script = generateTestScript(test)
 			writeTestScript(test.testClass, script)
         }
-		println(tests)
 	}
 
 	def writeTestScript(testClass, script) {
