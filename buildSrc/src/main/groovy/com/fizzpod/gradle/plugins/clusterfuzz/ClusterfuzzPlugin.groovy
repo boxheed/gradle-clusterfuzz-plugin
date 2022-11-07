@@ -62,8 +62,8 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		ClusterfuzzJarTask.register(project)
 		ClusterfuzzDependenciesTask.register(project)
 
-		ClusterfuzzRunScriptTask.register(project)
-		ClusterfuzzScriptsTask.register(project)
+		ClusterfuzzWriteRunScriptTask.register(project)
+		ClusterfuzzWriteTestScriptsTask.register(project)
 /*
 		project.task([group: CLUSTERFUZZ_GROUP,
 			dependsOn: [ClusterfuzzJarTask.NAME, ClusterfuzzDependenciesTask.NAME],
@@ -72,6 +72,8 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 				new ClusterfuzzScriptsTask(project).doTask()
 		}
 */
+
+		ClusterfuzzDefinitionTask.register(project)
 		ClusterfuzzAssembleTask.register(project)
 
 

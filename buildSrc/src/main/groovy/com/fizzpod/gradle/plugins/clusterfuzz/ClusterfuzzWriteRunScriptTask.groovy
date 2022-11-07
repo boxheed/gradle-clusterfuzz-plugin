@@ -7,14 +7,14 @@ import javax.inject.Inject
 import org.apache.commons.io.IOUtils
 import java.nio.charset.Charset
 
-public class ClusterfuzzRunScriptTask extends DefaultTask {
+public class ClusterfuzzWriteRunScriptTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Runscript"
 
 	private Project project
 
 	@Inject
-	ClusterfuzzRunScriptTask(Project project) {
+	ClusterfuzzWriteRunScriptTask(Project project) {
 		this.project = project
 	}
 
@@ -24,7 +24,7 @@ public class ClusterfuzzRunScriptTask extends DefaultTask {
 
 
 		taskContainer.create([name: NAME,
-			type: ClusterfuzzRunScriptTask,
+			type: ClusterfuzzWriteRunScriptTask,
 			group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
 			description: 'Creates the main run script for running clusterfuzz'])
 

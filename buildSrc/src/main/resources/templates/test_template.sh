@@ -6,13 +6,13 @@
 SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 DIR_NAME=`basename \$SCRIPT_DIR` 
 # define test class
-TARGET='$class'
+TARGET='$testClass'
 
 echo -e  "---------------------------------------------------"
 echo -e  " Project: $project.name"
 echo -e  " Version: $project.version"
 echo -e  " Dir    : \$DIR_NAME" 
-echo -e  " Target : $class"
+echo -e  " Target : \$TARGET"
 echo -e  " Start  :" `date`
 echo -e  "---------------------------------------------------"
 

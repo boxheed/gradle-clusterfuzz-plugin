@@ -15,13 +15,17 @@ public class ClusterfuzzAssembleTask {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
 		project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
 		type: Copy.class, 
-		dependsOn: [ClusterfuzzJarTask.NAME, ClusterfuzzScriptsTask.NAME, ClusterfuzzRunScriptTask.NAME, ClusterfuzzDependenciesTask.NAME],
+		dependsOn: [ClusterfuzzJarTask.NAME, 
+			ClusterfuzzWriteTestScriptsTask.NAME, 
+			ClusterfuzzWriteRunScriptTask.NAME, 
+			ClusterfuzzDependenciesTask.NAME, 
+			ClusterfuzzDefinitionTask.NAME],
 		description: 'Assembles libraries and scripts for running with clusterfuzz'],
 		NAME) {
 			destinationDir = ClusterfuzzPluginHelper.createPath(project, NAME)
 			includeEmptyDirs = false
 			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzPlugin.CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
-			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzRunScriptTask.NAME).getAbsolutePath())
+			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteRunScriptTask.NAME).getAbsolutePath())
 
 			into('libs', {
 				from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzDependenciesTask.NAME).getAbsolutePath())
