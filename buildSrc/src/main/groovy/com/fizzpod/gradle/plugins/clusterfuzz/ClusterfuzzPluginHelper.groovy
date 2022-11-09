@@ -28,7 +28,6 @@ class ClusterfuzzPluginHelper {
             .matching( entry -> 
                 entry.name.equals(name) || name ==~ entry.name
             )
-        println("configs " + configs)
         
         if(config != null) {
             config = config.config
