@@ -7,7 +7,7 @@ public class ClusterfuzzTestConfig implements GroovyInterceptable {
         "options": ["-runs": "100", 
                 "-timeout":"10", 
                 "-max_total_time":"300", 
-                "--jvm_args":"-Xmx2048m"],
+                "--jvm_args":"-Xmx512m"],
         "jacoco": ["enabled": true, 
                 "dumpfile":"jacoco.exec", 
                 "reportfile": "jacoco.txt"],
