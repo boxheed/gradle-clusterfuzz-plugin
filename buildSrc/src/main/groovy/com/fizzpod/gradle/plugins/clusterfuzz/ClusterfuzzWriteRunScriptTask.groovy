@@ -19,15 +19,13 @@ public class ClusterfuzzWriteRunScriptTask extends DefaultTask {
 	}
 
     static register(Project project) {
-        def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
 		def taskContainer = project.getTasks()
-
 
 		taskContainer.create([name: NAME,
 			type: ClusterfuzzWriteRunScriptTask,
+			dependsOn: [ClusterfuzzDefinitionTask.NAME],
 			group: null,
 			description: 'Creates the main run script for running clusterfuzz'])
-
     }
 
 	@TaskAction

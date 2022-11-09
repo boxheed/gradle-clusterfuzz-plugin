@@ -15,53 +15,51 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Scripts"
 
-	private Project project
+    private Project project
 
-	@Inject
-	ClusterfuzzWriteTestScriptsTask(Project project) {
-		this.project = project
-	}
+    @Inject
+    ClusterfuzzWriteTestScriptsTask(Project project) {
+        this.project = project
+    }
 
     static register(Project project) {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		def taskContainer = project.getTasks()
+        def taskContainer = project.getTasks()
 
-
-		taskContainer.create([name: NAME,
-			type: ClusterfuzzWriteTestScriptsTask,
-			dependsOn: [ClusterfuzzJarTask.NAME, ClusterfuzzDefinitionTask.NAME],
-			group: null,
-			description: 'Creates the main scripts for running each of the clusterfuzz tests'])
+        taskContainer.create([name: NAME,
+            type: ClusterfuzzWriteTestScriptsTask,
+            dependsOn: [ClusterfuzzJarTask.NAME, ClusterfuzzDefinitionTask.NAME],
+            group: null,
+            description: 'Creates the main scripts for running each of the clusterfuzz tests'])
     }
 
-	@TaskAction
-	def runTask() {
-		def tests = loadTests()
-		tests.each { test ->
+    @TaskAction
+    def runTask() {
+        def tests = loadTests()
+        tests.each { test ->
             test.project = project
             test.config = ClusterfuzzPluginHelper.getConfig(project, test.testName)
             def script = generateTestScript(test)
-			writeTestScript(test.testClass, script)
+            writeTestScript(test.testName, script)
         }
-	}
+    }
 
-	def writeTestScript(testClass, script) {
-		def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
+    def writeTestScript(testName, script) {
+        def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
         def testsFolder = new File(outputDir, "tests")
-        def name = testClass.split("\\.").last()
-        def testFolder = new File(testsFolder, name)
+        def testFolder = new File(testsFolder, testName)
         testFolder.mkdirs()
         File testFile = new File(testFolder, "runTest.sh");
         testFile.write(script)
     }
 
-	def generateTestScript(params) {
+    def generateTestScript(params) {
         def template = IOUtils.resourceToString('/templates/test_template.sh', Charset.forName("UTF-8"))
         def engine = new groovy.text.SimpleTemplateEngine()
         return engine.createTemplate(template).make(params).toString()
     }
 
-	def loadTests() {
+    def loadTests() {
         //load the definition
         def defDir = ClusterfuzzPluginHelper.createPath(project, ClusterfuzzDefinitionTask.NAME)
         File jsonFile = new File(defDir, "definition.json")

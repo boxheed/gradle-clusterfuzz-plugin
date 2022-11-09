@@ -41,10 +41,15 @@ JCO='--coverage_report=$config.jacoco.reportfile --coverage_dump=$config.jacoco.
 JZR_DRIVER=`which jazzer_driver`
 JZR_AGENT=`which jazzer_agent_deploy.jar`
 
+CORPUS=''
+if [ -d "./corpus" ] 
+then
+  CORPUS="./corpus"
+fi
 
 export TEST_TIMEOUT=30
 #run the test
-\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ config.jacoco.enabled ? '$JCO': '' }
+\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ config.jacoco.enabled ? '$JCO': '' } \$CORPUS
 
 # collect the generated output and the run script
 mkdir -p ../output

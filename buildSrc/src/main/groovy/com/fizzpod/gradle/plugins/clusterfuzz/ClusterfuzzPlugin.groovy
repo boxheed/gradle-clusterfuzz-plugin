@@ -63,6 +63,7 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 		ClusterfuzzWriteTestScriptsTask.register(project)
 		ClusterfuzzDefinitionTask.register(project)
 		ClusterfuzzAssembleTask.register(project)
+		ClusterfuzzWriteCorpusTask.register(project)
 		ClusterfuzzTask.register(project)
 
 	}

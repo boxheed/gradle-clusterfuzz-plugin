@@ -19,13 +19,15 @@ public class ClusterfuzzAssembleTask {
 			ClusterfuzzWriteTestScriptsTask.NAME, 
 			ClusterfuzzWriteRunScriptTask.NAME, 
 			ClusterfuzzDependenciesTask.NAME, 
-			ClusterfuzzDefinitionTask.NAME],
+			ClusterfuzzDefinitionTask.NAME,
+			ClusterfuzzWriteCorpusTask.NAME],
 		description: 'Assembles libraries and scripts for running with clusterfuzz'],
 		NAME) {
 			destinationDir = ClusterfuzzPluginHelper.createPath(project, NAME)
 			includeEmptyDirs = false
 			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteTestScriptsTask.NAME).getAbsolutePath())
 			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteRunScriptTask.NAME).getAbsolutePath())
+			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteCorpusTask.NAME).getAbsolutePath())
 
 			into('libs', {
 				from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzDependenciesTask.NAME).getAbsolutePath())

@@ -24,7 +24,6 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
     }
 
     static register(Project project) {
-        def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
         def taskContainer = project.getTasks()
 
         taskContainer.create([name: NAME,
@@ -45,11 +44,17 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
             testData.options = getOptions(testData.testName)
             testData.flags = getFlags(testData.testName)
             testData.jacoco = getJacoco(testData.testName)
+            testData.corpus = getCorpus(testData.testName)
             data.tests.add(testData)
         }
         def json = new JsonBuilder( data ).toPrettyString()
         println(json)
         writeJson(json)
+    }
+
+    def getCorpus(testName) {
+        def config = ClusterfuzzPluginHelper.getConfig(project, testName)
+        return config.corpus
     }
 
     def getJacoco(testName) {
