@@ -56,7 +56,7 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     @Internal
     def getJacoco() {
-        def extension = ClusterfuzzPluginHelper.getExtension(project)
+        def extension = ClusterfuzzPluginHelper.getConfig(project)
         return extension.jacoco
     }
 
@@ -69,9 +69,9 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     @Internal
     def getOptions() {
-        def extension = ClusterfuzzPluginHelper.getExtension(project)
+        def extension = ClusterfuzzPluginHelper.getConfig(project)
         def opts = []
-        extension.getOptions().each { kv ->
+        extension.options.each { kv ->
             opts.add(kv.key + "=" + kv.value)
         }
         return opts
@@ -79,7 +79,7 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     @Internal
     def getFlags() {
-        def extension = ClusterfuzzPluginHelper.getExtension(project)
+        def extension = ClusterfuzzPluginHelper.getConfig(project)
         return extension.flags.join(" ")
     }
 

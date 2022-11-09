@@ -54,7 +54,11 @@ dependencies {
 }
 
 clusterfuzz {
-    options = options + ["--instrumentation_includes":"com.fizzpod.**"]
+    config {
+        options = ["--instrumentation_includes":"com.fizzpod.**","-runs": "200"]
+        
+    }
+
 }
 
 

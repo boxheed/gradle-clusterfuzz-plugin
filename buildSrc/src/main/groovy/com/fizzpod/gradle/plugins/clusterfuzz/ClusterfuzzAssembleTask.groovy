@@ -9,11 +9,11 @@ public class ClusterfuzzAssembleTask {
 
     /**
     * Register the plugin. This isn't a real task, just configures 
-    * a new Jar task
+    * a new Copy task
     */
     public static register(Project project) {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		project.task([group: null,
+		project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
 		type: Copy.class, 
 		dependsOn: [ClusterfuzzJarTask.NAME, 
 			ClusterfuzzWriteTestScriptsTask.NAME, 
@@ -24,7 +24,7 @@ public class ClusterfuzzAssembleTask {
 		NAME) {
 			destinationDir = ClusterfuzzPluginHelper.createPath(project, NAME)
 			includeEmptyDirs = false
-			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzPlugin.CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
+			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteTestScriptsTask.NAME).getAbsolutePath())
 			from(ClusterfuzzPluginHelper.createPath(project, ClusterfuzzWriteRunScriptTask.NAME).getAbsolutePath())
 
 			into('libs', {

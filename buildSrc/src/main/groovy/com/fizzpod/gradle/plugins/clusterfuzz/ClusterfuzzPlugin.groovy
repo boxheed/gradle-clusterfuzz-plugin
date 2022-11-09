@@ -23,17 +23,19 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 
 	public static final String CLUSTERFUZZ_GROUP = "build"
 
-	public static final String CLUSTERFUZZ_CLASSES_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Classes"
-	//public static final String CLUSTERFUZZ_JAR_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Jar"
-	//public static final String CLUSTERFUZZ_DEPS_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Dependencies"
-	public static final String CLUSTERFUZZ_SCRIPTS_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Scripts"
-	//public static final String CLUSTERFUZZ_ASSEMBLE_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Assemble"
-
 	void apply(Project project) {
-		project.extensions.create(CLUSTERFUZZ_PLUGIN_NAME, ClusterfuzzPluginExtension)
+		createExtension(project)
 		createSourceSet(project)
 		createConfiguration(project)
 		createTasks(project)
+	}
+
+	private void createExtension(project) {
+		def config = project.container(ClusterfuzzTestConfig) { name ->
+			new ClusterfuzzTestConfig(name)
+		}
+
+		project.extensions.add(CLUSTERFUZZ_PLUGIN_NAME, config)
 	}
 
 	private void createSourceSet(Project project) {
@@ -55,13 +57,8 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 	}
 
 	private void createTasks(Project project) {
-		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
-		def fuzzSourceSet = sourceSets.named(CLUSTERFUZZ_SOURCESET_NAME)
-		def implementationConfiguration = project.getConfigurations().named(CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME)
-
 		ClusterfuzzJarTask.register(project)
 		ClusterfuzzDependenciesTask.register(project)
-
 		ClusterfuzzWriteRunScriptTask.register(project)
 		ClusterfuzzWriteTestScriptsTask.register(project)
 		ClusterfuzzDefinitionTask.register(project)

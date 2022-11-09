@@ -9,7 +9,7 @@ public class ClusterfuzzDependenciesTask {
 
     /**
     * Register the plugin. This isn't a real task, just configures 
-    * a new Jar task
+    * a new Copy task to pull the dependencies together
     */
     public static register(Project project) {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
