@@ -32,7 +32,7 @@ echo -e  "###################################################"
 
 set -e
 
-find ../ -name 'test.sh' -execdir bash {} \\;
+find ../ -name 'runTest.sh' -execdir bash {} \\;
 
 echo -e  "###################################################"
 echo -e  " Finshed:" `date`

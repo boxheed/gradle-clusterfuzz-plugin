@@ -19,14 +19,6 @@ class ClusterfuzzPluginHelper {
 		return fuzzSourceSet
     }
 
-    static getExtension(Project project) {
-        return project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME).getByName("config")
-    }
-
-    static getConfig(Project project) {
-        getConfig(project, "config")
-    }
-
     static getConfig(Project project, String name) {
         //get the default config
         def config = project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME).getByName("config")

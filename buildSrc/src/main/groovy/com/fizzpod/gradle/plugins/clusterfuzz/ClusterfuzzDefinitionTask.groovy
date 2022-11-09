@@ -32,7 +32,6 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
             dependsOn: [ClusterfuzzJarTask.NAME],
             group: null,
             description: 'Creates the definition of the tests'])
-
     }
 
     @TaskAction
