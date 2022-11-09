@@ -28,13 +28,26 @@ class ClusterfuzzPluginHelper {
     }
 
     static getConfig(Project project, String name) {
-        def config = project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME).getByName(name)
+        //get the default config
+        def config = project.extensions.findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME).getByName("config")
+        def configs = project
+            .extensions
+            .findByName(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME)
+            .matching( entry -> 
+                entry.name.equals(name) || name ==~ entry.name
+            )
+        println("configs " + configs)
+        
         if(config != null) {
             config = config.config
         } else {
             config = [:]
         }
-        return merge(ClusterfuzzTestConfig.DEFAULTS, config)
+        config = merge(ClusterfuzzTestConfig.DEFAULTS, config)
+        configs.each { entry ->
+            config = merge(config, entry.config)
+        }
+        return config
     }
 
     static merge(Map lhs, Map rhs) {

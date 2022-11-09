@@ -56,9 +56,13 @@ dependencies {
 clusterfuzz {
     config {
         options = ["--instrumentation_includes":"com.fizzpod.**","-runs": "200"]
-        
     }
-
+    "ClusterfuzzPluginExtensionFuzzTest" {
+        options = ["--instrumentation_includes": "com.fizzpod.gradle.**"]
+    }
+    "ClusterfuzzPlugin.*" {
+        options = ["-runs": "300"]
+    }
 }
 
 

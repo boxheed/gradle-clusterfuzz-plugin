@@ -27,7 +27,6 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
         def taskContainer = project.getTasks()
 
-
         taskContainer.create([name: NAME,
             type: ClusterfuzzDefinitionTask,
             dependsOn: [ClusterfuzzJarTask.NAME],
@@ -42,11 +41,11 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         def tests = findTests()
         tests.each { test ->
             ClusterfuzzTest testData = new ClusterfuzzTest()
-            testData.testName = test
+            testData.testName = getTestName(test)
             testData.testClass = getTestClass(test)
-            testData.options = getOptions()
-            testData.flags = getFlags()
-            testData.jacoco = getJacoco()
+            testData.options = getOptions(testData.testName)
+            testData.flags = getFlags(testData.testName)
+            testData.jacoco = getJacoco(testData.testName)
             data.tests.add(testData)
         }
         def json = new JsonBuilder( data ).toPrettyString()
@@ -54,22 +53,13 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         writeJson(json)
     }
 
-    @Internal
-    def getJacoco() {
-        def extension = ClusterfuzzPluginHelper.getConfig(project)
+    def getJacoco(testName) {
+        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
         return extension.jacoco
     }
 
-    def writeJson(json) {
-        def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
-        outputDir.mkdirs()
-        File jsonFile = new File(outputDir, "definition.json");
-        jsonFile.write(json)
-    }
-
-    @Internal
-    def getOptions() {
-        def extension = ClusterfuzzPluginHelper.getConfig(project)
+    def getOptions(testName) {
+        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
         def opts = []
         extension.options.each { kv ->
             opts.add(kv.key + "=" + kv.value)
@@ -77,9 +67,8 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         return opts
     }
 
-    @Internal
-    def getFlags() {
-        def extension = ClusterfuzzPluginHelper.getConfig(project)
+    def getFlags(testName) {
+        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
         return extension.flags.join(" ")
     }
 
@@ -106,4 +95,14 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
         return null
     }
 
+    def getTestName(classFile) {
+        return getTestClass(classFile).split("\\.").last()
+    }
+
+    def writeJson(json) {
+        def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
+        outputDir.mkdirs()
+        File jsonFile = new File(outputDir, "definition.json");
+        jsonFile.write(json)
+    }
 }
