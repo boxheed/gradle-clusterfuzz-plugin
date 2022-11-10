@@ -44,7 +44,7 @@ jobs:
 
   clusterfuzz:
     docker:
-      - image: gcr.io/oss-fuzz-base/base-builder-jvm@sha256:cb9d861caf3677ac6e29f253d3d7c84ad6edb854a292a91e65538bdebbd6dd58
+      - image: gcr.io/oss-fuzz-base/base-builder-jvm
     working_directory: ~/fuzz
     steps:
       - attach_workspace:
