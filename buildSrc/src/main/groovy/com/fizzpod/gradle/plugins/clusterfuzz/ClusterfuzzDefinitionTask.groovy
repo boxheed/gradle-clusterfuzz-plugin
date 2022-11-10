@@ -58,22 +58,22 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
     }
 
     def getJacoco(testName) {
-        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
-        return extension.jacoco
+        def config = ClusterfuzzPluginHelper.getConfig(project, testName)
+        return config.jacoco
     }
 
     def getOptions(testName) {
-        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
+        def config = ClusterfuzzPluginHelper.getConfig(project, testName)
         def opts = []
-        extension.options.each { kv ->
-            opts.add(kv.key + "=" + kv.value)
+        config.options.each { kv ->
+           opts.add(kv.key + "=" + kv.value)
         }
-        return opts
+        return opts.join(" ")
     }
 
     def getFlags(testName) {
-        def extension = ClusterfuzzPluginHelper.getConfig(project, testName)
-        return extension.flags.join(" ")
+        def config = ClusterfuzzPluginHelper.getConfig(project, testName)
+        return config.flags.join(" ")
     }
 
     def findTests() {

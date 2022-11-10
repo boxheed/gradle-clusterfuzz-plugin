@@ -4,8 +4,8 @@ class ClusterfuzzTest {
 
     String testClass
     String testName
-    String[] options
-    String[] flags
+    String options
+    String flags
     String corpus
     Map jacoco
     
