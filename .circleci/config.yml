@@ -20,6 +20,7 @@ jobs:
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew clean build clusterfuzzAssemble
+      - run: cd ./build && ls -altR
       - persist_to_workspace:
           root: build
           paths:
@@ -55,7 +56,7 @@ jobs:
       - run: bash ./bin/run.sh
       - run: ls -altR
       - store_artifacts: 
-          path: ~/fuzz/tests/output
+          path: ~/fuzz
 
     
   publish:
