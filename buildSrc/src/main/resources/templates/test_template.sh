@@ -48,7 +48,9 @@ then
 fi
 
 export TEST_TIMEOUT=30
+
 #run the test
+\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ config.jacoco.enabled ? '$JCO': '' } \$CORPUS
 
 # collect the generated output and the run script
 mkdir -p ../output
