@@ -30,8 +30,6 @@ echo -e  " Start  :" `date`
 echo -e  " Dir    : \$SCRIPT_DIR"
 echo -e  "###################################################"
 
-echo `which tee`
-
 set -e
 
 find ../ -name 'runTest.sh' -execdir bash {} \\;
