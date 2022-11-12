@@ -40,10 +40,10 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     @TaskAction
     def runTask() {
-        ClusterfuzzTests data = new ClusterfuzzTests()
+        ClusterfuzzTestDefinitions data = new ClusterfuzzTestDefinitions()
         def tests = findTests()
         tests.each { test ->
-            ClusterfuzzTest testData = new ClusterfuzzTest()
+            ClusterfuzzTestDefinition testData = new ClusterfuzzTestDefinition()
             testData.testName = getTestName(test)
             testData.testClass = getTestClass(test)
             testData.options = getOptions(testData.testName)

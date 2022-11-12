@@ -1,6 +1,6 @@
 package com.fizzpod.gradle.plugins.clusterfuzz
 
-class ClusterfuzzTest {
+class ClusterfuzzTestDefinition {
 
     String testClass
     String testName
