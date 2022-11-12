@@ -19,8 +19,8 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
+      - run: ls -altR
       - run: ./gradlew clean build clusterfuzzAssemble
-      - run: cd ./build && ls -altR
       - persist_to_workspace:
           root: build
           paths:
