@@ -76,11 +76,12 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
             println("LL" + srcDir)
         }
         println("KK" + srcDir)
-        def corpusDir = new File(srcDir, "../corpus")
+        def corpusDir = new File(srcDir.getParentFile(), "corpus")
         println("BB" + corpusDir)
         if(corpusDir.exists()) {
+            println("DD" + corpusDir)
             corpusDir.eachFileRecurse(FILES) { file ->
-            println("PP" + file)
+                println("PP" + file)
                 if(file.getName() ==~ corpus) {
                     corpi += file
                 }
