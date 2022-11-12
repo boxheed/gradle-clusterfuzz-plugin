@@ -69,12 +69,12 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
         println("SS" + fuzzSourceSet)
         def srcDir = null
-        fuzzSourceSet.each( it ->
+        fuzzSourceSet.each { it ->
             println("GG " + it)
             println("QQ " + it.get().resources.srcDirs)
             srcDir = it.get().resources.srcDirs[0]
             println("LL" + srcDir)
-        )
+        }
         println("KK" + srcDir)
         def corpusDir = new File(srcDir, "../corpus")
         println("BB" + corpusDir)
