@@ -13,12 +13,12 @@ public class ClusterfuzzTask {
     * a new default task that creates the task dependencies to create the full assembled output
     */
     public static register(Project project) {
-        def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
-		type: DefaultTask.class, 
-		dependsOn: [ClusterfuzzAssembleTask.NAME],
-		description: 'Assembles libraries, scripts, corpus data etc for running with clusterfuzz'],
-		NAME)
+        project.getLogger().debug("Registering task {}", NAME)
+        project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP,
+        type: DefaultTask.class, 
+        dependsOn: [ClusterfuzzAssembleTask.NAME],
+        description: 'Assembles libraries, scripts, corpus data etc for running with clusterfuzz'],
+        NAME)
     }
 
 }

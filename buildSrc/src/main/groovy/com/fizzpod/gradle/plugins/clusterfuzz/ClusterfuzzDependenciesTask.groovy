@@ -12,19 +12,20 @@ public class ClusterfuzzDependenciesTask {
     * a new Copy task to pull the dependencies together
     */
     public static register(Project project) {
+        project.getLogger().debug("Registering task {}", NAME)
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		project.task([group: null,
-			type: Copy.class, 
-			dependsOn: [],
-			description: 'Assembles libraries for running with clusterfuzz'],
-			NAME) {
-				from(fuzzSourceSet.get().runtimeClasspath){
-         			include '**/*.jar'
-				}
-				from(project.getTasksByName('jar', false)[0].archiveFile)
-				includeEmptyDirs = false
-				into(ClusterfuzzPluginHelper.createPath(project, NAME).getAbsolutePath())
-		}
+        project.task([group: null,
+            type: Copy.class, 
+            dependsOn: [],
+            description: 'Assembles libraries for running with clusterfuzz'],
+            NAME) {
+                from(fuzzSourceSet.get().runtimeClasspath){
+                     include '**/*.jar'
+                }
+                from(project.getTasksByName('jar', false)[0].archiveFile)
+                includeEmptyDirs = false
+                into(ClusterfuzzPluginHelper.createPath(project, NAME).getAbsolutePath())
+        }
     }
 
 }

@@ -18,13 +18,18 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     private Project project
 
+    private def logger
+
     @Inject
     ClusterfuzzDefinitionTask(Project project) {
         this.project = project
+        this.logger = project.getLogger()
     }
 
     static register(Project project) {
         def taskContainer = project.getTasks()
+
+        project.getLogger().debug("Registering task {}", NAME)
 
         taskContainer.create([name: NAME,
             type: ClusterfuzzDefinitionTask,
@@ -48,7 +53,7 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
             data.tests.add(testData)
         }
         def json = new JsonBuilder( data ).toPrettyString()
-        println(json)
+        logger.info("Clusterfuzz definition: {}", json)
         writeJson(json)
     }
 

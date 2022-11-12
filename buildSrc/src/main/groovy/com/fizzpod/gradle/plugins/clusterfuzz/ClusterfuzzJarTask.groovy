@@ -12,16 +12,17 @@ public class ClusterfuzzJarTask {
     * a new Jar task
     */
     public static register(Project project) {
+        project.getLogger().debug("Registering task {}", NAME)
         def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
         project.task([group: ClusterfuzzPlugin.CLUSTERFUZZ_GROUP, 
-			type: Jar.class, 
-			dependsOn: ['jar', CLUSTERFUZZ_CLASSES_TASK_NAME],
-			description: 'Assembles a jar archive containing the fuzzer tests'], 
-			NAME) {
-				archiveAppendix = 'clusterfuzz'
-				destinationDirectory = ClusterfuzzPluginHelper.createPath(project, NAME)
-				from fuzzSourceSet.get().output
-		}
+            type: Jar.class, 
+            dependsOn: ['jar', CLUSTERFUZZ_CLASSES_TASK_NAME],
+            description: 'Assembles a jar archive containing the fuzzer tests'], 
+            NAME) {
+                archiveAppendix = 'clusterfuzz'
+                destinationDirectory = ClusterfuzzPluginHelper.createPath(project, NAME)
+                from fuzzSourceSet.get().output
+        }
     }
 
 }

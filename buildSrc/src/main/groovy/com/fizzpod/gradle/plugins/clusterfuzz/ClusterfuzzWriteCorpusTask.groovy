@@ -16,28 +16,28 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Corpus"
 
-	private Project project
+    private Project project
 
-	@Inject
-	ClusterfuzzWriteCorpusTask(Project project) {
-		this.project = project
-	}
-
-    static register(Project project) {
-        def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
-		def taskContainer = project.getTasks()
-
-		taskContainer.create([name: NAME,
-			type: ClusterfuzzWriteCorpusTask,
-			dependsOn: [ClusterfuzzDefinitionTask.NAME],
-			group: null,
-			description: 'Creates the corpus folders for the scripts with specified test data'])
+    @Inject
+    ClusterfuzzWriteCorpusTask(Project project) {
+        this.project = project
     }
 
-	@TaskAction
-	def runTask() {
-		def tests = loadTests()
-		tests.each { test ->
+    static register(Project project) {
+        project.getLogger().debug("Registering task {}", NAME)
+        def taskContainer = project.getTasks()
+
+        taskContainer.create([name: NAME,
+            type: ClusterfuzzWriteCorpusTask,
+            dependsOn: [ClusterfuzzDefinitionTask.NAME],
+            group: null,
+            description: 'Creates the corpus folders for the scripts with specified test data'])
+    }
+
+    @TaskAction
+    def runTask() {
+        def tests = loadTests()
+        tests.each { test ->
             def config = ClusterfuzzPluginHelper.getConfig(project, test.testName)
             if(config.corpus) {
                 def corpi = findCorpi(config.corpus)
@@ -52,7 +52,7 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
                 }
             }
         }
-	}
+    }
 
     def getTargetFolder(testName) {
         def root = ClusterfuzzPluginHelper.createPath(project, NAME)

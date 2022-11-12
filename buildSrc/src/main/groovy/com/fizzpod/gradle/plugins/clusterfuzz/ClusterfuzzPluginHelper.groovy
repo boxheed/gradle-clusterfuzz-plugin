@@ -15,8 +15,12 @@ class ClusterfuzzPluginHelper {
 
     static getSourceSet(Project project) {
         def sourceSets = project.extensions.getByType(SourceSetContainer.class)
-		def fuzzSourceSet = sourceSets.named(ClusterfuzzPlugin.CLUSTERFUZZ_SOURCESET_NAME)
-		return fuzzSourceSet
+        def fuzzSourceSet = sourceSets.named(ClusterfuzzPlugin.CLUSTERFUZZ_SOURCESET_NAME)
+        return fuzzSourceSet
+    }
+
+    static getLogger(Project project) {
+        return project.getLogger()
     }
 
     static getConfig(Project project, String name) {
@@ -55,7 +59,7 @@ class ClusterfuzzPluginHelper {
     }
     
     static createPath(Project project, String name) {
-		String part = name.replace(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME, "").toLowerCase()
-		return new File(project.getBuildDir(), ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "/" + part)
-	}
+        String part = name.replace(ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME, "").toLowerCase()
+        return new File(project.getBuildDir(), ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "/" + part)
+    }
 }

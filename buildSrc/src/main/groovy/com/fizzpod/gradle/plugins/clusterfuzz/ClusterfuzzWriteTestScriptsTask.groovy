@@ -23,7 +23,7 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
     }
 
     static register(Project project) {
-        def fuzzSourceSet = ClusterfuzzPluginHelper.getSourceSet(project)
+        project.getLogger().debug("Registering task {}", NAME)
         def taskContainer = project.getTasks()
 
         taskContainer.create([name: NAME,

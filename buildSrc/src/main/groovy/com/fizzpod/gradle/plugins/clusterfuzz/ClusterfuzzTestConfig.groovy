@@ -24,26 +24,26 @@ public class ClusterfuzzTestConfig implements GroovyInterceptable {
 
     ClusterfuzzTestConfig(final String name) {
         this.name = name
-		config["name"] = name
+        config["name"] = name
     }
 
-	def getConfig() {
-		return this.config
-	}
+    def getConfig() {
+        return this.config
+    }
 
-	void setProperty(String key, value) {
-      	config[key] = value
-   	}
+    void setProperty(String key, value) {
+          config[key] = value
+       }
    
-   	def getProperty(String key) {
-		if(key.equalsIgnoreCase("config")) {
-			return this.config
-		} else {
-      		return this.config[key]
-		}
-   	} 
+       def getProperty(String key) {
+        if(key.equalsIgnoreCase("config")) {
+            return this.config
+        } else {
+              return this.config[key]
+        }
+       } 
 
-	def invokeMethod(String key, args) {
+    def invokeMethod(String key, args) {
         arguments[key] = args
     }
 

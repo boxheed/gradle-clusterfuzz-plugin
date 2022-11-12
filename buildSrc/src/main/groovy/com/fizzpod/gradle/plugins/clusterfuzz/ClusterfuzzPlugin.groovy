@@ -13,63 +13,59 @@ import org.slf4j.LoggerFactory
 
 class ClusterfuzzPlugin implements Plugin<Project> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClusterfuzzPlugin.class)
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClusterfuzzPlugin.class)
 
-	public static final String CLUSTERFUZZ_PLUGIN_NAME = "clusterfuzz"
+    public static final String CLUSTERFUZZ_PLUGIN_NAME = "clusterfuzz"
 
-	public static final String CLUSTERFUZZ_SOURCESET_NAME = CLUSTERFUZZ_PLUGIN_NAME
+    public static final String CLUSTERFUZZ_SOURCESET_NAME = CLUSTERFUZZ_PLUGIN_NAME
 
-	public static final String CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Implementation"
+    public static final String CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Implementation"
 
-	public static final String CLUSTERFUZZ_GROUP = "build"
+    public static final String CLUSTERFUZZ_GROUP = "build"
 
-	void apply(Project project) {
-		createExtension(project)
-		createSourceSet(project)
-		createConfiguration(project)
-		createTasks(project)
-	}
+    void apply(Project project) {
+        createExtension(project)
+        createSourceSet(project)
+        createConfiguration(project)
+        createTasks(project)
+    }
 
-	private void createExtension(project) {
-		def config = project.container(ClusterfuzzTestConfig) { name ->
-			new ClusterfuzzTestConfig(name)
-		}
+    private void createExtension(project) {
+        def config = project.container(ClusterfuzzTestConfig) { name ->
+            new ClusterfuzzTestConfig(name)
+        }
 
-		project.extensions.add(CLUSTERFUZZ_PLUGIN_NAME, config)
-	}
+        project.extensions.add(CLUSTERFUZZ_PLUGIN_NAME, config)
+    }
 
-	private void createSourceSet(Project project) {
-		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
+    private void createSourceSet(Project project) {
+        def sourceSets = project.extensions.getByType(SourceSetContainer.class)
 
-		def fuzzSourceSet = sourceSets.register(CLUSTERFUZZ_PLUGIN_NAME)
-		project.afterEvaluate {
-			def main = sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME)
-			fuzzSourceSet.get().compileClasspath = fuzzSourceSet.get().compileClasspath.plus(main.get().output)
-			fuzzSourceSet.get().runtimeClasspath = fuzzSourceSet.get().runtimeClasspath.plus(main.get().output)
-		}
-	}
+        def fuzzSourceSet = sourceSets.register(CLUSTERFUZZ_PLUGIN_NAME)
+        project.afterEvaluate {
+            def main = sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME)
+            fuzzSourceSet.get().compileClasspath = fuzzSourceSet.get().compileClasspath.plus(main.get().output)
+            fuzzSourceSet.get().runtimeClasspath = fuzzSourceSet.get().runtimeClasspath.plus(main.get().output)
+        }
+    }
 
-	private void createConfiguration(Project project) {
-		def configurations = project.getConfigurations()
-		configurations.named(CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME) {
+    private void createConfiguration(Project project) {
+        def configurations = project.getConfigurations()
+        configurations.named(CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME) {
             it.extendsFrom(configurations.named(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME).get())
         }
-	}
+    }
 
-	private void createTasks(Project project) {
-		ClusterfuzzJarTask.register(project)
-		ClusterfuzzDependenciesTask.register(project)
-		ClusterfuzzWriteRunScriptTask.register(project)
-		ClusterfuzzWriteTestScriptsTask.register(project)
-		ClusterfuzzDefinitionTask.register(project)
-		ClusterfuzzAssembleTask.register(project)
-		ClusterfuzzWriteCorpusTask.register(project)
-		ClusterfuzzTask.register(project)
+    private void createTasks(Project project) {
+        ClusterfuzzJarTask.register(project)
+        ClusterfuzzDependenciesTask.register(project)
+        ClusterfuzzWriteRunScriptTask.register(project)
+        ClusterfuzzWriteTestScriptsTask.register(project)
+        ClusterfuzzDefinitionTask.register(project)
+        ClusterfuzzAssembleTask.register(project)
+        ClusterfuzzWriteCorpusTask.register(project)
+        ClusterfuzzTask.register(project)
 
-	}
+    }
 
-	private File createPath(Project project, String name) {
-		String part = name.replace(CLUSTERFUZZ_PLUGIN_NAME, "").toLowerCase()
-		return new File(project.getBuildDir(), CLUSTERFUZZ_PLUGIN_NAME + "/" + part)
-	}
 }
