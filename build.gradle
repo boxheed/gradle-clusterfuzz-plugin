@@ -54,12 +54,20 @@ dependencies {
 }
 
 clusterfuzz {
-    options = options + ["--instrumentation_includes":"com.fizzpod.**"]
+    config {
+        options = ["--instrumentation_includes":"com.fizzpod.**","-runs": "200"]
+        corpus = ".*"
+    }
+    "ClusterfuzzPluginExtensionFuzzTest" {
+        options = ["--instrumentation_includes": "com.fizzpod.gradle.**"]
+    }
+    "ClusterfuzzPlugin.*" {
+        options = ["-runs": "300"]
+    }
 }
 
 
 pluginBundle {
-
   description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
   tags = ['test', 'clusterfuzz', 'jvm', 'Jazzer']
 }

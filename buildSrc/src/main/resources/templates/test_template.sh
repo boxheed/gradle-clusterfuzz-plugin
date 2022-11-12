@@ -6,13 +6,13 @@
 SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 DIR_NAME=`basename \$SCRIPT_DIR` 
 # define test class
-TARGET='$class'
+TARGET='$testClass'
 
 echo -e  "---------------------------------------------------"
 echo -e  " Project: $project.name"
 echo -e  " Version: $project.version"
 echo -e  " Dir    : \$DIR_NAME" 
-echo -e  " Target : $class"
+echo -e  " Target : \$TARGET"
 echo -e  " Start  :" `date`
 echo -e  "---------------------------------------------------"
 
@@ -35,16 +35,22 @@ FLGS='$flags'
 # Jazzer options
 OPTS='$options'
 # Jacoco options
-JCO='--coverage_report=$extension.jacoco.reportfile --coverage_dump=$extension.jacoco.dumpfile'
+JCO='--coverage_report=$config.jacoco.reportfile --coverage_dump=$config.jacoco.dumpfile'
 
 # Find the jazzer driver and agent these should be on the path
 JZR_DRIVER=`which jazzer_driver`
 JZR_AGENT=`which jazzer_agent_deploy.jar`
 
+CORPUS=''
+if [ -d "./corpus" ] 
+then
+  CORPUS="./corpus"
+fi
 
 export TEST_TIMEOUT=30
+
 #run the test
-\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ extension.jacoco.enabled ? '$JCO': '' }
+\$JZR_DRIVER --agent_path=\$JZR_AGENT --cp=\$CP --target_class=\$TARGET \$FLGS \$OPTS ${ config.jacoco.enabled ? '$JCO': '' } \$CORPUS
 
 # collect the generated output and the run script
 mkdir -p ../output

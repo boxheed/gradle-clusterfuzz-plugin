@@ -5,10 +5,10 @@ import com.code_intelligence.jazzer.api.FuzzedDataProvider;
 public class ClusterfuzzPluginExtensionFuzzTest {
 
     public static void fuzzerTestOneInput(FuzzedDataProvider data) {
-        ClusterfuzzPluginExtension extension = new ClusterfuzzPluginExtension();
+        ClusterfuzzTest test = new ClusterfuzzTest();
         String input = data.consumeString(10);
-        extension.setLanguage(input);
-        assert input.equals(extension.getLanguage());
+        test.setTestName(input);
+        assert input.equals(test.getTestName());
     }
 
 }

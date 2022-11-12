@@ -23,18 +23,21 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 
 	public static final String CLUSTERFUZZ_GROUP = "build"
 
-	public static final String CLUSTERFUZZ_CLASSES_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Classes"
-	public static final String CLUSTERFUZZ_JAR_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Jar"
-	public static final String CLUSTERFUZZ_DEPS_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Dependencies"
-	public static final String CLUSTERFUZZ_SCRIPTS_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Scripts"
-	public static final String CLUSTERFUZZ_ASSEMBLE_TASK_NAME = CLUSTERFUZZ_PLUGIN_NAME + "Assemble"
-
 	void apply(Project project) {
-		project.extensions.create(CLUSTERFUZZ_PLUGIN_NAME, ClusterfuzzPluginExtension)
+		createExtension(project)
 		createSourceSet(project)
 		createConfiguration(project)
 		createTasks(project)
 	}
+
+	private void createExtension(project) {
+		def config = project.container(ClusterfuzzTestConfig) { name ->
+			new ClusterfuzzTestConfig(name)
+		}
+
+		project.extensions.add(CLUSTERFUZZ_PLUGIN_NAME, config)
+	}
+
 	private void createSourceSet(Project project) {
 		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
 
@@ -54,54 +57,15 @@ class ClusterfuzzPlugin implements Plugin<Project> {
 	}
 
 	private void createTasks(Project project) {
-		def sourceSets = project.extensions.getByType(SourceSetContainer.class)
-		def fuzzSourceSet = sourceSets.named(CLUSTERFUZZ_SOURCESET_NAME)
-		def implementationConfiguration = project.getConfigurations().named(CLUSTERFUZZ_IMPLEMENTATION_CONFIGURATION_NAME)
+		ClusterfuzzJarTask.register(project)
+		ClusterfuzzDependenciesTask.register(project)
+		ClusterfuzzWriteRunScriptTask.register(project)
+		ClusterfuzzWriteTestScriptsTask.register(project)
+		ClusterfuzzDefinitionTask.register(project)
+		ClusterfuzzAssembleTask.register(project)
+		ClusterfuzzWriteCorpusTask.register(project)
+		ClusterfuzzTask.register(project)
 
-		project.task([group: CLUSTERFUZZ_GROUP, 
-			type: Jar.class, 
-			dependsOn: ['jar', CLUSTERFUZZ_CLASSES_TASK_NAME],
-			description: 'Assembles a jar archive containing the fuzzer tests'], 
-			CLUSTERFUZZ_JAR_TASK_NAME) {
-				archiveAppendix = 'clusterfuzz'
-				destinationDirectory = createPath(project, CLUSTERFUZZ_JAR_TASK_NAME)
-				from fuzzSourceSet.get().output
-		}
-
-		project.task([group: CLUSTERFUZZ_GROUP,
-			type: Copy.class, 
-			dependsOn: [],
-			description: 'Assembles libraries for running with clusterfuzz'],
-			CLUSTERFUZZ_DEPS_TASK_NAME) {
-				from(fuzzSourceSet.get().runtimeClasspath){
-         			include '**/*.jar'
-				}
-				from(project.getTasksByName('jar', false)[0].archiveFile)
-				includeEmptyDirs = false
-				into(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
-		}
-
-		project.task([group: CLUSTERFUZZ_GROUP,
-			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
-			description: 'Creates the scripts for running clusterfuzz'],
-			CLUSTERFUZZ_SCRIPTS_TASK_NAME).doLast {
-				new ClusterfuzzScriptsTask(project).doTask()
-		}
-
-		project.task([group: CLUSTERFUZZ_GROUP,
-			type: Copy.class, 
-			dependsOn: [CLUSTERFUZZ_JAR_TASK_NAME, CLUSTERFUZZ_SCRIPTS_TASK_NAME, CLUSTERFUZZ_DEPS_TASK_NAME],
-			description: 'Assembles libraries and scripts for running with clusterfuzz'],
-			CLUSTERFUZZ_ASSEMBLE_TASK_NAME) {
-				destinationDir = createPath(project, CLUSTERFUZZ_ASSEMBLE_TASK_NAME)
-				includeEmptyDirs = false
-				from(createPath(project, CLUSTERFUZZ_SCRIPTS_TASK_NAME).getAbsolutePath())
-				into('libs', {
-					from(createPath(project, CLUSTERFUZZ_DEPS_TASK_NAME).getAbsolutePath())
-					from(createPath(project, CLUSTERFUZZ_JAR_TASK_NAME).getAbsolutePath())
-				})
-
-		}
 	}
 
 	private File createPath(Project project, String name) {
