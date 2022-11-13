@@ -55,8 +55,8 @@ jobs:
       - run: ls -altR
       - run: bash ./bin/run.sh
       - run: ls -altR
-      - store_artifacts: 
       - run: which jq
+      - store_artifacts: 
           path: ~/fuzz
 
     
