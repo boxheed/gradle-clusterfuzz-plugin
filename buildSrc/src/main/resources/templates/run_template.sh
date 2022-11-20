@@ -32,7 +32,11 @@ echo -e  "###################################################"
 
 set -e
 
-find ../ -name 'runTest.sh' -execdir bash {} \\;
+find ../ -name 'runTest.sh' | while read line; do
+    echo "Processing file '$line'"
+    bash $line
+done
+
 
 echo -e  "###################################################"
 echo -e  " Finshed:" `date`
