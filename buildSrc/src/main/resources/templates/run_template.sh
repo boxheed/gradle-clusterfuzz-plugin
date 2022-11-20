@@ -33,8 +33,8 @@ echo -e  "###################################################"
 set -e
 
 find ../ -name 'runTest.sh' | while read line; do
-    echo "Processing file '$line'"
-    bash $line
+    echo "Processing file '\$line'"
+    bash \$line
 done
 
 
