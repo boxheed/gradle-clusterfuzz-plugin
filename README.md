@@ -48,6 +48,8 @@ Running the `clusterfuzz` task performs the following steps
 4. assembles the corpus files for each test
 5. assembles all of the items togethe into a runnable structure
 
+To generate the output run the `clusterfuzz` task i.e. `./gradlew clusterfuzz`
+
 ### Output Structure
 The plugin uses the `clusterfuzz` folder within the `build` folder. The plugin generates a number of intermediate folders, but ultimately it assembles all of the parts together into the `./build/clusterfuzz/assemble` folder.
 
@@ -105,5 +107,4 @@ See the Jazzer documentation for all supported options.
 * [OSS-fuzz](https://google.github.io/oss-fuzz/)
 * [Jazzer](https://github.com/CodeIntelligenceTesting/jazzer)
 * [libfuzzer](https://llvm.org/docs/LibFuzzer.html)
-* 
 
