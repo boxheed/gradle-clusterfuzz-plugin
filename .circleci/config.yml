@@ -73,11 +73,10 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      # TODO re-enable these steps
-#      - run: ./gradlew clean verifyRelease createRelease
-#      - run: ./gradlew clean build
-#      - run: ./gradlew publish
-#      - run: ./gradlew publishPlugins
+      - run: ./gradlew clean verifyRelease createRelease
+      - run: ./gradlew clean build
+      - run: ./gradlew publish
+      - run: ./gradlew publishPlugins
 
 workflows:
   build:
@@ -88,7 +87,9 @@ workflows:
           context: boxhead-builds
           requires:
             - build
-
+          filters:
+            branches:
+              only: /^develop.*$/
       - security:
           context: boxhead-builds
           requires:
@@ -102,5 +103,4 @@ workflows:
             - build
           filters:
             branches:
-            #TODO change me to main
-              only: donotrun
+              only: main
