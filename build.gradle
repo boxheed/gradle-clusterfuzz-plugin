@@ -9,14 +9,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0') {
-            //exclude group: 'com.fizzpod', module: 'gradle-gitignore-plugin'
-        }
+        classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0') 
     }
 }
 
 apply plugin: 'com.fizzpod.pater-build'
-apply from: 'buildSrc/build.gradle'
+apply plugin: 'com.fizzpod.clusterfuzz'
 
 sourceSets {
     main {
@@ -44,14 +42,32 @@ sourceSets {
     }
 }
 
+
 dependencies {
     api gradleApi()
     api localGroovy()
+    
+    implementation 'commons-io:commons-io:2.11.0'
+
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.12.0'
+
+}
+
+clusterfuzz {
+    config {
+        options = ["--instrumentation_includes":"com.fizzpod.**","-runs": "200"]
+        corpus = ".*"
+    }
+    "ClusterfuzzPluginExtensionFuzzTest" {
+        options = ["--instrumentation_includes": "com.fizzpod.gradle.**"]
+    }
+    "ClusterfuzzPlugin.*" {
+        options = ["-runs": "300"]
+    }
 }
 
 
 pluginBundle {
-
   description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
   tags = ['test', 'clusterfuzz', 'jvm', 'Jazzer']
 }
@@ -62,6 +78,23 @@ gradlePlugin {
             id = 'com.fizzpod.clusterfuzz'
             displayName = 'Gradle Clusterfuzz plugin'
             implementationClass = 'com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPlugin'
+        }
+    }
+}
+
+
+task printSourceSetInformation(){
+
+    doLast{
+        sourceSets.each { srcSet ->
+            println "["+srcSet.name+"]"
+            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
+            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
+            print "-->Compile classpath:\n"
+            srcSet.compileClasspath.files.each { 
+                print "  "+it.path+"\n"
+            }
+            println ""
         }
     }
 }

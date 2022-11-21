@@ -19,12 +19,13 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew clean build
-      - run: pwd
+      - run: ls -altR
+      - run: ./gradlew clean build clusterfuzz
       - persist_to_workspace:
           root: build
           paths:
             - ./libs
+            - ./clusterfuzz/assemble
   
   security:
     docker:
@@ -44,17 +45,19 @@ jobs:
 
   clusterfuzz:
     docker:
-      - image: cifuzz/jazzer
-    working_directory: ~/repo
+      - image: gcr.io/oss-fuzz-base/base-builder-jvm
+    working_directory: ~/fuzz
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/workspace
-      - run: echo 'hello'
-      - run: cat /etc/os-release
-      - run: uname -r
-      - run: whoami
-      - run: cd ~/workspace && ls -R
+      - run: cp -r ~/workspace/clusterfuzz/assemble/* .
+      - run: ls -altR
+      - run: bash ./bin/run.sh
+      - run: ls -altR
+      - store_artifacts: 
+          path: ~/fuzz
+
     
   publish:
     docker:
@@ -70,11 +73,10 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      # TODO re-enable these steps
-#      - run: ./gradlew clean verifyRelease createRelease
-#      - run: ./gradlew clean build
-#      - run: ./gradlew publish
-#      - run: ./gradlew publishPlugins
+      - run: ./gradlew clean verifyRelease createRelease
+      - run: ./gradlew clean build
+      - run: ./gradlew publish
+      - run: ./gradlew publishPlugins
 
 workflows:
   build:
@@ -85,6 +87,9 @@ workflows:
           context: boxhead-builds
           requires:
             - build
+          filters:
+            branches:
+              only: /^develop.*$/
       - security:
           context: boxhead-builds
           requires:
@@ -98,5 +103,4 @@ workflows:
             - build
           filters:
             branches:
-            #TODO change me to main
-              only: donotrun
+              only: main
