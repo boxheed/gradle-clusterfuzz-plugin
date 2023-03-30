@@ -67,14 +67,11 @@ clusterfuzz {
 }
 
 
-pluginBundle {
-  description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
-  tags = ['test', 'clusterfuzz', 'jvm', 'Jazzer']
-}
-
 gradlePlugin {
     plugins {
         plugin {
+            description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
+            tags.set(['test', 'clusterfuzz', 'jvm', 'Jazzer'])
             id = 'com.fizzpod.clusterfuzz'
             displayName = 'Gradle Clusterfuzz plugin'
             implementationClass = 'com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPlugin'
