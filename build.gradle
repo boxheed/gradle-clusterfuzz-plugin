@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0') 
+        classpath ('com.fizzpod:gradle-plugin-opinion:16.0.1') 
     }
 }
 
@@ -49,7 +49,7 @@ dependencies {
     
     implementation 'commons-io:commons-io:2.11.0'
 
-    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.14.0'
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.16.1'
 
 }
 
@@ -67,14 +67,11 @@ clusterfuzz {
 }
 
 
-pluginBundle {
-  description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
-  tags = ['test', 'clusterfuzz', 'jvm', 'Jazzer']
-}
-
 gradlePlugin {
     plugins {
         plugin {
+            description = 'Gradle plugin providing default configurations for testing with ClusterFuzz.'
+            tags.set(['test', 'clusterfuzz', 'jvm', 'Jazzer'])
             id = 'com.fizzpod.clusterfuzz'
             displayName = 'Gradle Clusterfuzz plugin'
             implementationClass = 'com.fizzpod.gradle.plugins.clusterfuzz.ClusterfuzzPlugin'
