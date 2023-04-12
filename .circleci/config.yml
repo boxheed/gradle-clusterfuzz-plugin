@@ -75,8 +75,8 @@ jobs:
       - checkout
       - run: ./gradlew clean verifyRelease createRelease
       - run: ./gradlew clean build
-      - run: ./gradlew publish
       - run: ./gradlew publishPlugins
+      - run: ./gradlew publish
 
 workflows:
   build:
@@ -103,4 +103,7 @@ workflows:
             - build
           filters:
             branches:
-              only: main
+              ignore: /.*/
+            # only act on version tags
+            tags:
+              only: /^release-(?:[0-9]+\.){2}[0-9]+$/
