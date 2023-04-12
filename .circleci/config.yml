@@ -57,8 +57,24 @@ jobs:
       - run: ls -altR
       - store_artifacts: 
           path: ~/fuzz
-
-    
+  
+  release:
+    docker:
+      # specify the version you desire here
+      - image: cimg/openjdk:11.0
+    working_directory: ~/repo
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    steps:
+      - run:
+          name: setup
+          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+      - checkout
+      - run: ./gradlew createRelease
+      - run: ./gradlew pushRelease
+   
   publish:
     docker:
       # specify the version you desire here
@@ -73,7 +89,7 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew clean verifyRelease createRelease
+      - run: ./gradlew clean verifyRelease
       - run: ./gradlew clean build
       - run: ./gradlew publishPlugins
       - run: ./gradlew publish
@@ -97,6 +113,13 @@ workflows:
           filters:
             branches:
               only: /^release.*$/
+      - release:
+          context: boxhead-builds
+          requires:
+            - build
+          filters:
+            branches:
+              only: /^(?:main|master)$/
       - publish:
           context: boxhead-builds
           requires:
