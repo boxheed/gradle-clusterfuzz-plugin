@@ -122,11 +122,9 @@ workflows:
               only: /^(?:main|master)$/
       - publish:
           context: boxhead-builds
-          requires:
-            - build
           filters:
-            branches:
-              ignore: /.*/
+#            branches:
+#              ignore: /.*/
             # only act on version tags
             tags:
               only: /^release-[0-9]+\.[0-9]+\.[0-9]+$/
