@@ -89,8 +89,8 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew clean verifyRelease
-      - run: ./gradlew clean build
+      - run: ./gradlew clean verifyRelease -Prelease.disableRemoteCheck
+      - run: ./gradlew build
       - run: ./gradlew publishPlugins
       - run: ./gradlew publish
 
@@ -123,9 +123,8 @@ workflows:
       - publish:
           context: boxhead-builds
           filters:
+            # only act on version tags
             branches:
               ignore: /.*/
-            # only act on version tags
             tags:
               only: /^release.*/
-#              only: /^release-(?:[0-9]+\.){2}[0-9]+$/
