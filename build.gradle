@@ -49,7 +49,7 @@ dependencies {
     
     implementation 'commons-io:commons-io:2.13.0'
 
-    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.20.1'
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.21.1'
 
 }
 
