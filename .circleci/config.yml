@@ -45,7 +45,7 @@ jobs:
 
   security-2:
     docker:
-      - image: cimg/go
+      - image: cimg/go:1.20-node
     steps:
       - checkout
       - run: go install github.com/google/osv-scanner/cmd/osv-scanner@v1
