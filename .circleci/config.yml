@@ -43,6 +43,14 @@ jobs:
       - checkout
       - run: ./gradlew clean dependencyCheckAnalyze
 
+  security-2:
+    docker:
+      - image: cimg/go
+    steps:
+      - checkout
+      - run: go install github.com/google/osv-scanner/cmd/osv-scanner@v1
+      - run: echo "Hello World"
+
   clusterfuzz:
     docker:
       - image: gcr.io/oss-fuzz-base/base-builder-jvm
@@ -104,6 +112,8 @@ workflows:
             branches:
               only: /^develop.*$/
       - security:
+          context: boxhead-builds
+      - security-2:
           context: boxhead-builds
       - release:
           context: boxhead-builds
