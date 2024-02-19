@@ -37,16 +37,6 @@ jobs:
       - run: ./gradlew osvInstall
       - run: ./gradlew osvScan
 
-  security-2:
-    docker:
-      - image: cimg/openjdk:11.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run: cd /tmp && curl https://github.com/google/osv-scanner/releases/download/v1.6.2/osv-scanner_1.6.2_linux_amd64 -o osv-scanner && chmod +x /tmp/osv-scanner
-      - run: echo "Hello World"
-      - run: ls -al && pwd && /tmp/osv-scanner -r `pwd`
-
   clusterfuzz:
     docker:
       - image: gcr.io/oss-fuzz-base/base-builder-jvm
@@ -108,8 +98,6 @@ workflows:
             branches:
               only: /^develop.*$/
       - security:
-          context: boxhead-builds
-      - security-2:
           context: boxhead-builds
       - release:
           context: boxhead-builds
