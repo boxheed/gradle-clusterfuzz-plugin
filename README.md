@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/boxheed/gradle-clusterfuzz-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/boxheed/gradle-clusterfuzz-plugin/tree/master)
+[![CircleCI](https://circleci.com/gh/boxheed/gradle-clusterfuzz-plugin/tree/main.svg?style=shield)](https://circleci.com/gh/boxheed/gradle-clusterfuzz-plugin/tree/main)
 
 
 # Gradle Clusterfuzz Plugin
