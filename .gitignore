@@ -4,7 +4,10 @@
 .settings
 bin
 build
-
 .idea/
 *.iml
 .vscode
+.git-semver
+.LCKbuild.gradle~
+.osv-scanner
+.git-semver
