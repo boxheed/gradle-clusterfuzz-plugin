@@ -66,10 +66,6 @@ clusterfuzz {
     }
 }
 
-gitSemver {
-  stable = false
-}
-
 gradlePlugin {
     plugins {
         plugin {

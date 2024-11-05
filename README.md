@@ -10,10 +10,6 @@ The plugin creates additional tasks within your build script and supports the cr
 
 ## Usage
 
-### Configuration
-
-
-
 ### Project Structure
 
 The plugin creates a new source set extending the default source set within which you can contain your clusterfuzz tests, resources and corpus. The following demonstrates the layout with this plugin.
@@ -29,7 +25,7 @@ project
      |    └─── java...
      |    └─── resources...
      └─── test
-     |    └─── java
+     |    └─── java...
      |    └─── resources...
      |
      └─── clusterfuzz
@@ -44,9 +40,9 @@ The plugin creates a number of tasks that create the output folders for running 
 Running the `clusterfuzz` task performs the following steps
 1. compiles the clusterfuzz tests in the sourceset 
 2. assembles the libraries together
-3. generates shell scripts for running the tests (based on configurtion)
+3. generates shell scripts for running the tests (based on configuration)
 4. assembles the corpus files for each test
-5. assembles all of the items togethe into a runnable structure
+5. assembles all of the items together into a runnable structure
 
 To generate the output run the `clusterfuzz` task i.e. `./gradlew clusterfuzz`
 
