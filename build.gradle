@@ -47,7 +47,7 @@ dependencies {
     api gradleApi()
     api localGroovy()
     
-    implementation 'commons-io:commons-io:2.17.0'
+    implementation 'commons-io:commons-io:2.18.0'
 
     clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.22.1'
 
