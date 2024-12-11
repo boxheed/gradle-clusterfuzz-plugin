@@ -1,16 +1,18 @@
+/* (C) 2024 */
+/* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
-import org.gradle.api.Project
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.Internal
+import static groovy.io.FileType.FILES
+
+import groovy.json.JsonBuilder
+import java.nio.charset.Charset
+import java.util.zip.ZipFile
 import javax.inject.Inject
 import org.apache.commons.io.IOUtils
-import java.util.zip.ZipFile
-import java.nio.charset.Charset
-import groovy.json.JsonBuilder
-
-import static groovy.io.FileType.FILES
+import org.gradle.api.DefaultTask
+import org.gradle.api.Project
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.TaskAction
 
 public class ClusterfuzzDefinitionTask extends DefaultTask {
 
@@ -111,7 +113,7 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
     def writeJson(json) {
         def outputDir = ClusterfuzzPluginHelper.createPath(project, NAME)
         outputDir.mkdirs()
-        File jsonFile = new File(outputDir, "definition.json");
+        File jsonFile = new File(outputDir, "definition.json")
         jsonFile.write(json)
     }
 }
