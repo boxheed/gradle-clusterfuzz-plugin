@@ -1,15 +1,17 @@
+/* (C) 2024 */
+/* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
-import org.gradle.api.Project
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
+import static groovy.io.FileType.FILES
+
 import groovy.json.JsonSlurper
+import java.nio.charset.Charset
+import java.util.zip.ZipFile
 import javax.inject.Inject
 import org.apache.commons.io.IOUtils
-import java.util.zip.ZipFile
-import java.nio.charset.Charset
-
-import static groovy.io.FileType.FILES
+import org.gradle.api.DefaultTask
+import org.gradle.api.Project
+import org.gradle.api.tasks.TaskAction
 
 public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 
@@ -49,7 +51,7 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
         def testsFolder = new File(outputDir, "tests")
         def testFolder = new File(testsFolder, testName)
         testFolder.mkdirs()
-        File testFile = new File(testFolder, "runTest.sh");
+        File testFile = new File(testFolder, "runTest.sh")
         testFile.write(script)
     }
 

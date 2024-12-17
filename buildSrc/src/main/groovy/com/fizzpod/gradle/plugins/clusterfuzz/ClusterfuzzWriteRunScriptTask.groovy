@@ -1,11 +1,13 @@
+/* (C) 2024 */
+/* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
-import org.gradle.api.Project
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
+import java.nio.charset.Charset
 import javax.inject.Inject
 import org.apache.commons.io.IOUtils
-import java.nio.charset.Charset
+import org.gradle.api.DefaultTask
+import org.gradle.api.Project
+import org.gradle.api.tasks.TaskAction
 
 public class ClusterfuzzWriteRunScriptTask extends DefaultTask {
 
