@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath ('com.fizzpod:gradle-plugin-opinion:21.0.0') 
+        classpath ('com.fizzpod:gradle-plugin-opinion:22.1.0') 
     }
 }
 
@@ -49,7 +49,7 @@ dependencies {
     
     implementation 'commons-io:commons-io:2.18.0'
 
-    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.22.1'
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.24.0'
 
 }
 
