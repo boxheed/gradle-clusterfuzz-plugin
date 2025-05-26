@@ -4,6 +4,6 @@ repositories {
 
 dependencies {
 	implementation 'commons-io:commons-io:2.19.0'
-	testImplementation 'junit:junit:4.13.2'
-	testImplementation(group: 'org.hamcrest', name: 'hamcrest-library', version: '3.0')
+	testImplementation 'com.netflix.nebula:nebula-test:10.6.2'
 }
+
