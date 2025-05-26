@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2024-2025 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
@@ -35,9 +35,9 @@ public class ClusterfuzzTestConfig implements GroovyInterceptable {
 
     void setProperty(String key, value) {
           config[key] = value
-       }
+    }
    
-       def getProperty(String key) {
+    def getProperty(String key) {
         if(key.equalsIgnoreCase("config")) {
             return this.config
         } else {

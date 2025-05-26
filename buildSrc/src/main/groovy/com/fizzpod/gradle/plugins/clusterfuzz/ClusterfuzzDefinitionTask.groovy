@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2024-2025 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
@@ -86,7 +86,7 @@ public class ClusterfuzzDefinitionTask extends DefaultTask {
     def findTests() {
         def tests = []
         def jarFolder = ClusterfuzzPluginHelper.createPath(project, ClusterfuzzJarTask.NAME)
-        jarFolder.eachFileRecurse(FILES) { jarFile ->
+        jarFolder.exists() && jarFolder.eachFileRecurse(FILES) { jarFile ->
             if(jarFile.name.endsWith('.jar')) { 
                 def zf = new ZipFile(jarFile)
                 zf.entries().findAll { !it.directory }.each {
