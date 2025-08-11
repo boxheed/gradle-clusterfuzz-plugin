@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath ('com.fizzpod:gradle-plugin-opinion:23.0.1')  {
+        classpath ('com.fizzpod:gradle-plugin-opinion:24.0.1')  {
             exclude group: 'com.fizzpod', module: 'gradle-clusterfuzz-plugin'
         }
     }
@@ -17,6 +17,7 @@ buildscript {
 
 apply plugin: 'com.fizzpod.pater-build'
 apply plugin: 'com.fizzpod.clusterfuzz'
+apply from: 'buildSrc/build.gradle'
 
 sourceSets {
     main {
@@ -49,11 +50,7 @@ dependencies {
     api gradleApi()
     api localGroovy()
     
-    implementation 'commons-io:commons-io:2.19.0'
-
     clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.24.0'
-    testImplementation 'com.netflix.nebula:nebula-test:10.6.2'
-
 }
 
 clusterfuzz {
