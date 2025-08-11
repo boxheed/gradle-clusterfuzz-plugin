@@ -17,6 +17,7 @@ buildscript {
 
 apply plugin: 'com.fizzpod.pater-build'
 apply plugin: 'com.fizzpod.clusterfuzz'
+apply from: 'buildSrc/build.gradle'
 
 sourceSets {
     main {
@@ -48,12 +49,6 @@ sourceSets {
 dependencies {
     api gradleApi()
     api localGroovy()
-    
-    implementation 'commons-io:commons-io:2.20.0'
-
-    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.24.0'
-    testImplementation 'com.netflix.nebula:nebula-test:10.6.2'
-
 }
 
 clusterfuzz {
