@@ -49,6 +49,8 @@ sourceSets {
 dependencies {
     api gradleApi()
     api localGroovy()
+    
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.24.0'
 }
 
 clusterfuzz {
