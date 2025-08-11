@@ -4,6 +4,6 @@ repositories {
 
 dependencies {
 	implementation 'commons-io:commons-io:2.20.0'
-	testImplementation 'com.netflix.nebula:nebula-test:10.6.2'
+	testImplementation 'com.netflix.nebula:nebula-test:11.1.5'
 }
 
