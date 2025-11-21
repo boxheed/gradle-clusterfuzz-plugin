@@ -3,11 +3,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'commons-io:commons-io:2.20.0'
-    testImplementation('com.netflix.nebula:nebula-test:11.2.0') 
+    implementation 'commons-io:commons-io:2.21.0'
+    testImplementation('com.netflix.nebula:nebula-test:11.8.0') 
     testImplementation('org.spockframework:spock-core:2.3-groovy-4.0')
     testImplementation("org.spockframework:spock-junit4:2.3-groovy-4.0")
-    testImplementation("org.junit.vintage:junit-vintage-engine:5.13.4")
+    testImplementation("org.junit.vintage:junit-vintage-engine:6.0.1")
 
     test {
         useJUnitPlatform()
