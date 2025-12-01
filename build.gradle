@@ -50,7 +50,7 @@ dependencies {
     api gradleApi()
     api localGroovy()
     
-    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.27.0'
+    clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.28.0'
 }
 
 clusterfuzz {
