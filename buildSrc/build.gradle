@@ -15,5 +15,15 @@ dependencies {
             events "passed", "skipped", "failed"
         }
     }
+
+    constraints {
+
+    testImplementation('org.assertj:assertj-core') {
+        because 'version 3.27.3 imported as a dependency has a vulnerability'
+        version {
+            require '3.27.7'
+        }
+    }
+  }
 }
 
