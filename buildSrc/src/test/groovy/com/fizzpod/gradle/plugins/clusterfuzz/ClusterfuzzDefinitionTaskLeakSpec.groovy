@@ -1,14 +1,14 @@
-/* (C) 2025 */
+/* (C) 2025-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 
 class ClusterfuzzDefinitionTaskLeakSpec extends Specification {
 
