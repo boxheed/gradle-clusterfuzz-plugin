@@ -73,7 +73,7 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
         if(corpusDir.exists()) {
             corpusDir.eachFileRecurse(FILES) { file ->
                 if(file.getName() ==~ corpus) {
-                    corpi += file
+                    corpi.add(file)
                 }
             }
         }
