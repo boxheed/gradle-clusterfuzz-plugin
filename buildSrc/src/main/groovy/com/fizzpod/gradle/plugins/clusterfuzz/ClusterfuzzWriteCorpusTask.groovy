@@ -1,15 +1,12 @@
-/* (C) 2024 */
+/* (C) 2024-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
 import static groovy.io.FileType.FILES
 
 import groovy.json.JsonSlurper
-import java.nio.charset.Charset
 import java.nio.file.Files
-import java.util.zip.ZipFile
 import javax.inject.Inject
-import org.apache.commons.io.IOUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
@@ -71,9 +68,10 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
         }
         def corpusDir = new File(srcDir.getParentFile(), "corpus")
         if(corpusDir.exists()) {
+            def corpusPattern = java.util.regex.Pattern.compile(corpus)
             corpusDir.eachFileRecurse(FILES) { file ->
-                if(file.getName() ==~ corpus) {
-                    corpi += file
+                if(corpusPattern.matcher(file.getName()).matches()) {
+                    corpi.add(file)
                 }
             }
         }
