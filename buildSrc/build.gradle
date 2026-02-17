@@ -7,19 +7,22 @@ dependencies {
     testImplementation('com.netflix.nebula:nebula-test:11.11.3') 
     testImplementation('org.spockframework:spock-core:2.4-groovy-4.0')
     testImplementation("org.spockframework:spock-junit4:2.4-groovy-4.0")
-    testImplementation("org.junit.vintage:junit-vintage-engine:6.0.1")
-    testImplementation('org.assertj:assertj-core') {
-        because 'version 3.27.3 imported as a dependency has a vulnerability'
-        version {
-            require '3.27.7'
-        }
-    }
+    testImplementation("org.junit.vintage:junit-vintage-engine:6.0.3")
 
     test {
         useJUnitPlatform()
+        jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
         testLogging {
             events "passed", "skipped", "failed"
         }
     }
-}
 
+    constraints {
+        testImplementation('org.assertj:assertj-core') {
+            because 'version 3.27.3 imported as a dependency has a vulnerability'
+            version {
+                require '3.27.7'
+            }
+        }
+    }
+}
