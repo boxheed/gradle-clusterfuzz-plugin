@@ -51,6 +51,12 @@ dependencies {
     api localGroovy()
     
     clusterfuzzImplementation 'com.code-intelligence:jazzer-api:0.28.0'
+    testImplementation('org.assertj:assertj-core') {
+        because 'version 3.27.3 imported as a dependency has a vulnerability'
+        version {
+            require '3.27.7'
+        }
+    }
 }
 
 clusterfuzz {
