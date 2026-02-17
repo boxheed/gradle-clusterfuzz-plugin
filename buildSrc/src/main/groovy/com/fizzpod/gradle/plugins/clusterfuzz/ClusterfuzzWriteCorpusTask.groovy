@@ -71,7 +71,7 @@ public class ClusterfuzzWriteCorpusTask extends DefaultTask {
             def corpusPattern = java.util.regex.Pattern.compile(corpus)
             corpusDir.eachFileRecurse(FILES) { file ->
                 if(corpusPattern.matcher(file.getName()).matches()) {
-                    corpi += file
+                    corpi.add(file)
                 }
             }
         }
