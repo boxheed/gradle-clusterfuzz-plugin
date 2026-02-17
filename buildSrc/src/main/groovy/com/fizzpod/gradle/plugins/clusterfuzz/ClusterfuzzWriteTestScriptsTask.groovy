@@ -55,10 +55,19 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
         testFile.write(script)
     }
 
+    private groovy.text.Template template
+
+    private synchronized groovy.text.Template getTemplate() {
+        if (template == null) {
+            def templateContent = IOUtils.resourceToString('/templates/test_template.sh', Charset.forName("UTF-8"))
+            def engine = new groovy.text.SimpleTemplateEngine()
+            template = engine.createTemplate(templateContent)
+        }
+        return template
+    }
+
     def generateTestScript(params) {
-        def template = IOUtils.resourceToString('/templates/test_template.sh', Charset.forName("UTF-8"))
-        def engine = new groovy.text.SimpleTemplateEngine()
-        return engine.createTemplate(template).make(params).toString()
+        return getTemplate().make(params).toString()
     }
 
     def loadTests() {
