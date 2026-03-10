@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2024-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
@@ -9,6 +9,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
+@org.gradle.api.tasks.UntrackedTask(because = "Not cacheable")
 public class ClusterfuzzWriteRunScriptTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Runscript"

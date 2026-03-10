@@ -13,6 +13,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
+@org.gradle.api.tasks.UntrackedTask(because = "Not cacheable")
 public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Scripts"
@@ -57,7 +58,8 @@ public class ClusterfuzzWriteTestScriptsTask extends DefaultTask {
 
     private groovy.text.Template template
 
-    private synchronized groovy.text.Template getTemplate() {
+    @org.gradle.api.tasks.Internal
+    public synchronized groovy.text.Template getTemplate() {
         if (template == null) {
             def templateContent = IOUtils.resourceToString('/templates/test_template.sh', Charset.forName("UTF-8"))
             def engine = new groovy.text.SimpleTemplateEngine()
