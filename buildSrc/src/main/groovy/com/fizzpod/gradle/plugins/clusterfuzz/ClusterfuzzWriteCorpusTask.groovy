@@ -11,6 +11,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
+@org.gradle.api.tasks.UntrackedTask(because = "Not cacheable")
 public class ClusterfuzzWriteCorpusTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Corpus"

@@ -14,6 +14,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+@org.gradle.api.tasks.UntrackedTask(because = "Not cacheable")
 public class ClusterfuzzDefinitionTask extends DefaultTask {
 
     public static final String NAME = ClusterfuzzPlugin.CLUSTERFUZZ_PLUGIN_NAME + "Definition"
