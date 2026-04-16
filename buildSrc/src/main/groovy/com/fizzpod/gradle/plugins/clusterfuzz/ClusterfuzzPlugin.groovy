@@ -1,7 +1,8 @@
-/* (C) 2024 */
+/* (C) 2024-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.clusterfuzz
 
+import org.gradle.api.NamedDomainObjectFactory
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
@@ -32,9 +33,18 @@ class ClusterfuzzPlugin implements Plugin<Project> {
     }
 
     private void createExtension(project) {
+/*
         def config = project.container(ClusterfuzzTestConfig) { name ->
             new ClusterfuzzTestConfig(name)
         }
+*/
+
+        def config = project.getObjects().domainObjectContainer(ClusterfuzzTestConfig.class, new NamedDomainObjectFactory<ClusterfuzzTestConfig>() {
+            @Override
+            ClusterfuzzTestConfig create(String name) {
+                return new ClusterfuzzTestConfig(name)
+            }
+        })
 
         project.extensions.add(CLUSTERFUZZ_PLUGIN_NAME, config)
     }
