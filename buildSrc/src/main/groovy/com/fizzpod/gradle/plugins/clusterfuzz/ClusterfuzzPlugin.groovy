@@ -33,11 +33,6 @@ class ClusterfuzzPlugin implements Plugin<Project> {
     }
 
     private void createExtension(project) {
-/*
-        def config = project.container(ClusterfuzzTestConfig) { name ->
-            new ClusterfuzzTestConfig(name)
-        }
-*/
 
         def config = project.getObjects().domainObjectContainer(ClusterfuzzTestConfig.class, new NamedDomainObjectFactory<ClusterfuzzTestConfig>() {
             @Override
